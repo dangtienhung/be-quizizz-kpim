@@ -14,7 +14,8 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { plainToClass } from 'class-transformer';
 import { UpdateUserDto } from './dto/update-user.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Authentication & Authorization')
 @Controller('api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
