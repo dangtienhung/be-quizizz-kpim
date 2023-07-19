@@ -11,17 +11,11 @@ export class QuizizzAnswer {
   @Prop()
   content: string;
 
-  @Prop()
+  @Prop({ default: false })
   isCorrect: boolean;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' })
-  question: QuizizzQuestion;
-
-  @Prop({ default: true })
-  active: boolean;
-
-  @Prop({ default: false })
-  isDeleted: boolean;
+  quizz_question: QuizizzQuestion;
 }
 
 export type QuizizzAnswerDocument = QuizizzAnswer &

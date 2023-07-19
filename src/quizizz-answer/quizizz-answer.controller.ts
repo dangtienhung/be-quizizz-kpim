@@ -16,9 +16,13 @@ export class QuizizzAnswerController {
   }
 
   /* get detail */
-  @Get(':id')
-  async getDetail(@Param() id: string): Promise<QuizizzAnswer> {
-    return await this.quizizzAnswerService.getDetail(id);
+  @Get('lists')
+  async getList(
+    @Param('_page') _page: number = 1,
+    @Param('_limit') _limit: number = 10,
+    @Param('q') q: string = '',
+  ): Promise<QuizizzAnswer[]> {
+    return await this.quizizzAnswerService.getList(_page, _limit, q);
   }
 
   /* get list */

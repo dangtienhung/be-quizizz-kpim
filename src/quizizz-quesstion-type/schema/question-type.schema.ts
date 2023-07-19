@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
+import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.schema';
+
 @Schema({
   timestamps: true,
   versionKey: false,
@@ -13,7 +15,7 @@ export class QuestionType {
   name: string;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' }])
-  questions: string[];
+  questions: QuizizzQuestion[];
 
   @Prop({ default: false })
   isDeleted: boolean;

@@ -1,27 +1,45 @@
-import { IsNotEmpty } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
+
+import { ObjectId } from 'mongoose';
 
 export abstract class BaseDto {
+  @IsString()
   @IsNotEmpty()
   title: string;
 
+  @IsNumber()
   @IsNotEmpty()
-  content: string;
-
-  score: number;
+  score: number = 0;
 
   active: boolean;
 
   isDeleted: boolean;
 
   @IsNotEmpty()
-  questionType: string;
+  questionType: ObjectId;
+
+  // @ValidateNested({ each: true })
+  // @Type(() => CreateQuizizzAnswerDto)
+  @IsArray()
+  @ArrayNotEmpty()
+  questionAnswers: {
+    content: {
+      type: string;
+    };
+    isCorrect: {
+      type: boolean;
+    };
+  }[];
 
   @IsNotEmpty()
-  questionAnswers: string[];
+  questionLevel: ObjectId;
 
   @IsNotEmpty()
-  questionLevel: string;
-
-  @IsNotEmpty()
-  questionGroup: string;
+  questionGroup: Object;
 }

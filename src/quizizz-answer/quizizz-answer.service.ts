@@ -39,7 +39,13 @@ export class QuizizzAnswerService {
       page: _page,
       limit: _limit,
       sort: { createdAt: -1 },
-      populate: [],
+      populate: [
+        {
+          path: 'quizz_question',
+          select: 'title score questionLevel',
+          populate: [{ path: 'questionLevel', select: 'content' }],
+        },
+      ],
     };
     const query = q ? [{ content: { $regex: q, $options: 'i' } }] : {};
     const quizizzAnswers = await this.model.paginate(query, options);

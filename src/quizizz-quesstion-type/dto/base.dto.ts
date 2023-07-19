@@ -1,4 +1,5 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
+import { ObjectId } from 'mongoose';
 
 export class BaseDto {
   code: string;
@@ -6,7 +7,7 @@ export class BaseDto {
   @IsNotEmpty()
   name: string;
 
-  questions: string[];
+  questions: ObjectId[];
 
   isDeleted: boolean;
 }

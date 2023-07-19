@@ -21,7 +21,7 @@ export class QuizizzQuestionLevel {
   isDeleted: boolean;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' }])
-  quizz_question: QuizizzQuestion;
+  questions: QuizizzQuestion;
 }
 
 export type QuizizzQuestionLevelDocument = QuizizzQuestionLevel &

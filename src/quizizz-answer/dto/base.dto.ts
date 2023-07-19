@@ -3,17 +3,13 @@ import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 import { ObjectId } from 'mongoose';
 
 export class BaseDto {
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   content: string;
 
-  active: boolean;
-
-  isDeleted: boolean;
-
   @IsBoolean()
-  isCorrect: boolean;
+  isCorrect: boolean = false;
 
   @IsNotEmpty()
-  question: ObjectId;
+  quizz_question: ObjectId;
 }
