@@ -7,6 +7,7 @@ import { QuizizzQuesstionTypeController } from './quizizz-quesstion-type/quizizz
 import { QuizizzQuesstionTypeModule } from './quizizz-quesstion-type/quizizz-quesstion-type.module';
 import { QuizizzQuestionGroupModule } from './quizizz-question-group/quizizz-question-group.module';
 import { UserModule } from './user/user.module';
+import { QuizizzQuestionModule } from './quizizz-question/quizizz-question.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
     UserModule,
     QuizizzQuestionGroupModule,
     QuizizzQuesstionTypeModule,
+    QuizizzQuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
