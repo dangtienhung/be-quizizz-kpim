@@ -4,16 +4,16 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { User } from './schema/user.schema';
-import { PaginateModel } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginateModel } from 'mongoose';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name) private readonly userModel: PaginateModel<User>,
+    @InjectModel('User') private readonly userModel: PaginateModel<User>,
   ) {}
 
   /* get all user */

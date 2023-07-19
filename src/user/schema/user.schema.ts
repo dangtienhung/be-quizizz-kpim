@@ -56,3 +56,5 @@ export class User {
 export type UserDocument = User & Document<User>;
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+// export const UserModel: PaginateModel<UserDocument> = PaginateModel(UserSchema);

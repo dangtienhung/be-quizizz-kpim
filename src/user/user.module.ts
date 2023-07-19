@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
 import { UserSchema } from './schema/user.schema';
 import { UserService } from './user.service';
+import mongosePaginate from 'mongoose-paginate-v2';
 
 @Module({
   controllers: [UserController],
