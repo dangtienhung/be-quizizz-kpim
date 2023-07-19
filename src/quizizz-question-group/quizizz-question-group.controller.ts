@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, Query, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { QuizizzQuestionGroupService } from './quizizz-question-group.service';
 import { CreateQuizizzQuestionGroupDto } from './dto/create.dto';
@@ -46,7 +55,7 @@ export class QuizizzQuestionGroupController {
   }
 
   /* xóa 1 group câu hỏi */
-  @Post('delete/:id')
+  @Delete('delete/:id')
   async delete(@Param('id') id: string): Promise<{ message: string }> {
     return await this.quizizzQuestionGroupService.delete(id);
   }

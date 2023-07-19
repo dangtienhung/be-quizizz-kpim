@@ -1,5 +1,3 @@
-import * as mongoosePaginate from 'mongoose-paginate-v2';
-
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
@@ -15,7 +13,7 @@ import { UserService } from './user.service';
         name: 'User',
         useFactory: () => {
           const schema = UserSchema;
-          schema.plugin(mongoosePaginate);
+          schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },
       },
