@@ -1,3 +1,4 @@
+import { QuestionType } from './../quizizz-quesstion-type/schema/question-type.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, Body, NotFoundException } from '@nestjs/common';
 import { PaginateModel } from 'mongoose';
@@ -9,6 +10,8 @@ export class QuizizzQuestionService {
   constructor(
     @InjectModel(QuizizzQuestion.name)
     private readonly quizizzQuestionModel: PaginateModel<QuizizzQuestion>,
+    @InjectModel(QuestionType.name)
+    private questionTypeModel: PaginateModel<QuestionType>,
   ) {}
 
   /* thêm dữ liệu */
@@ -19,6 +22,11 @@ export class QuizizzQuestionService {
     }
     /* update quiziz type */
     // await QuestionType.findB
+    const questionType = await this.questionTypeModel.find();
+    console.log(
+      '🚀 ~ file: quizizz-question.service.ts:26 ~ QuizizzQuestionService ~ create ~ questionType:',
+      questionType,
+    );
     return question;
   }
 

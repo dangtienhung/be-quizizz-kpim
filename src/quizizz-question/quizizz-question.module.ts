@@ -1,4 +1,8 @@
 import {
+  QuestionType,
+  QuestionTypeSchema,
+} from './../quizizz-quesstion-type/schema/question-type.schema';
+import {
   QuizizzQuestion,
   QuizizzQuestionSchema,
 } from './schema/quizizz-question.schema';
@@ -17,6 +21,14 @@ import { QuizizzQuestionService } from './quizizz-question.service';
         name: QuizizzQuestion.name,
         useFactory: () => {
           const schema = QuizizzQuestionSchema;
+          schema.plugin(require('mongoose-paginate-v2'));
+          return schema;
+        },
+      },
+      {
+        name: QuestionType.name,
+        useFactory: () => {
+          const schema = QuestionTypeSchema;
           schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },
