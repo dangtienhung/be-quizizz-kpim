@@ -10,6 +10,10 @@ import { UserModule } from './user/user.module';
 import { QuizizzQuestionModule } from './quizizz-question/quizizz-question.module';
 import { QuizizzAnswerModule } from './quizizz-answer/quizizz-answer.module';
 import { QuizizzQuestionLevelModule } from './quizizz-question-level/quizizz-question-level.module';
+import { QuizizzModule } from './quizizz/quizizz.module';
+import { QuizizzExamModule } from './quizizz-exam/quizizz-exam.module';
+import { QuizizzExamQuestionModule } from './quizizz-exam-question/quizizz-exam-question.module';
+import { QuizizzExamAnswerModule } from './quizizz-exam-answer/quizizz-exam-answer.module';
 
 @Module({
   imports: [
@@ -24,6 +28,10 @@ import { QuizizzQuestionLevelModule } from './quizizz-question-level/quizizz-que
     QuizizzQuestionModule,
     QuizizzAnswerModule,
     QuizizzQuestionLevelModule,
+    QuizizzModule,
+    QuizizzExamModule,
+    QuizizzExamQuestionModule,
+    QuizizzExamAnswerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

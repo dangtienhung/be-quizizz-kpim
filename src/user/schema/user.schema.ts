@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
+import { Quizizz } from 'src/quizizz/schema/quizizz.schema';
+
 const enum Status {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
@@ -31,8 +33,8 @@ export class User {
   @Prop({ default: Status.ACTIVE })
   status: Status;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizz' }])
-  quizz: string[];
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizizz' }])
+  quizizz: Quizizz[];
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizzExam' }])
   quizzExam: string[];
@@ -56,5 +58,3 @@ export class User {
 export type UserDocument = User & Document<User>;
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-// export const UserModel: PaginateModel<UserDocument> = PaginateModel(UserSchema);

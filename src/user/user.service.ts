@@ -39,7 +39,7 @@ export class UserService {
     users.docs = users.docs.map((user) => {
       user.password = undefined;
       user.isDeleted = undefined;
-      user.quizz = undefined;
+      user.quizizz = undefined;
       user.quizzExam = undefined;
       return user;
     });
@@ -66,7 +66,7 @@ export class UserService {
     /* loại bỏ các trường dữ liệu không cần thiết khi trả dữ liệu về */
     newUser.password = undefined;
     newUser.isDeleted = undefined;
-    newUser.quizz = undefined;
+    newUser.quizizz = undefined;
     newUser.quizzExam = undefined;
     return newUser;
   }

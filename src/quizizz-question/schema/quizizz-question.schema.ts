@@ -38,6 +38,9 @@ export class QuizizzQuestion {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestionGroup' })
   questionGroup: QuizizzQuestionGroup;
+
+  @Prop({ type: Number, default: 0 })
+  timer: number;
 }
 
 export type QuizizzQuestionDocument = QuizizzQuestion &
