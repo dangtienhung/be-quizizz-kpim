@@ -8,10 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   /* doc swagger */
-  /* doc swagger */
   const config = new DocumentBuilder()
     .setTitle('Quản lý API Quizizz')
-    .setDescription('Quản lý API Quizizz description')
+    .setDescription('Quản lý API Quizizz')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

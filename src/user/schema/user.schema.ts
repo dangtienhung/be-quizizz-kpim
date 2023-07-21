@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
 import { Quizizz } from 'src/quizizz/schema/quizizz.schema';
+import { QuizizzExam } from 'src/quizizz-exam/schema/quizizz-exam.schema';
 
 const enum Status {
   ACTIVE = 'ACTIVE',
@@ -36,8 +37,8 @@ export class User {
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizizz' }])
   quizizz: Quizizz[];
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizzExam' }])
-  quizzExam: string[];
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExam' }])
+  quizzExam: QuizizzExam[];
 
   @Prop({ type: Boolean, default: false })
   isDeleted: boolean;

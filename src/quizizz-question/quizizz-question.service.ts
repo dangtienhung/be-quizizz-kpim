@@ -1,4 +1,3 @@
-import { Level } from './../quizizz-question-level/schema/quizizz-question-level.schema';
 import { QuestionType } from './../quizizz-quesstion-type/schema/question-type.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, Body, NotFoundException } from '@nestjs/common';
@@ -60,20 +59,26 @@ export class QuizizzQuestionService {
         .exec();
     }
     /* update quizizz question type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: question.questionType },
-      { $addToSet: { questions: question._id } },
-    );
+    await this.questionTypeModel
+      .findByIdAndUpdate(
+        { _id: question.questionType },
+        { $addToSet: { questions: question._id } },
+      )
+      .exec();
     /* update quizizz question level */
-    await this.quizizzQuestionLevelModel.findByIdAndUpdate(
-      { _id: question.questionLevel },
-      { $addToSet: { questions: question._id } },
-    );
+    await this.quizizzQuestionLevelModel
+      .findByIdAndUpdate(
+        { _id: question.questionLevel },
+        { $addToSet: { questions: question._id } },
+      )
+      .exec();
     /* update quizizz question group */
-    await this.quizizzQuestionGroupModel.findByIdAndUpdate(
-      { _id: question.questionGroup },
-      { $addToSet: { questions: question._id } },
-    );
+    await this.quizizzQuestionGroupModel
+      .findByIdAndUpdate(
+        { _id: question.questionGroup },
+        { $addToSet: { questions: question._id } },
+      )
+      .exec();
     return question;
   }
 
@@ -215,28 +220,34 @@ export class QuizizzQuestionService {
     const answersId = question.questionAnswers;
     if (answersId.length > 0) {
       for (let answerId of answersId) {
-        await this.quizizzAnswerModel.findByIdAndDelete(answerId);
+        await this.quizizzAnswerModel.findByIdAndDelete(answerId).exec();
       }
     }
     /* xóa id câu hỏi ra khỏi quizizz level */
-    await this.quizizzQuestionLevelModel.findByIdAndUpdate(
-      { _id: question.questionLevel },
-      { $pull: { questions: question._id } },
-    );
+    await this.quizizzQuestionLevelModel
+      .findByIdAndUpdate(
+        { _id: question.questionLevel },
+        { $pull: { questions: question._id } },
+      )
+      .exec();
     /* xóa id câu hỏi ra khỏi quizizz group */
-    await this.quizizzQuestionGroupModel.findByIdAndUpdate(
-      { _id: question.questionGroup },
-      { $pull: { questions: question._id } },
-    );
+    await this.quizizzQuestionGroupModel
+      .findByIdAndUpdate(
+        { _id: question.questionGroup },
+        { $pull: { questions: question._id } },
+      )
+      .exec();
     /* xóa id câu hỏi ra khỏi quizizz type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: question.questionType },
-      { $pull: { questions: question._id } },
-    );
+    await this.questionTypeModel
+      .findByIdAndUpdate(
+        { _id: question.questionType },
+        { $pull: { questions: question._id } },
+      )
+      .exec();
     /* xóa câu hỏi */
-    const questionDeleted = await this.quizizzQuestionModel.findByIdAndDelete(
-      id,
-    );
+    const questionDeleted = await this.quizizzQuestionModel
+      .findByIdAndDelete(id)
+      .exec();
     if (!questionDeleted) {
       throw new NotFoundException('Question not found');
     }
@@ -247,11 +258,9 @@ export class QuizizzQuestionService {
     id: ObjectId,
     isDeleted: boolean,
   ): Promise<QuizizzQuestion> {
-    const question = await this.quizizzQuestionModel.findByIdAndUpdate(
-      { _id: id },
-      { isDeleted },
-      { new: true },
-    );
+    const question = await this.quizizzQuestionModel
+      .findByIdAndUpdate({ _id: id }, { isDeleted }, { new: true })
+      .exec();
     if (!question) {
       throw new NotFoundException('Question not found');
     }

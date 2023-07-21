@@ -9,11 +9,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginateModel } from 'mongoose';
+import { QuestionType } from 'src/quizizz-quesstion-type/schema/question-type.schema';
+import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.schema';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel('User') private readonly userModel: PaginateModel<User>,
+    @InjectModel(QuestionType.name)
+    private questionTypeModel: PaginateModel<QuestionType>,
+    @InjectModel(QuizizzQuestion.name)
+    private quizizzQuestionModel: PaginateModel<QuizizzQuestion>,
   ) {}
 
   /* get all user */
@@ -22,6 +28,16 @@ export class UserService {
       page: Number(_page),
       limit: Number(_limit),
       sort: { createdAt: -1 },
+      populate: [
+        {
+          path: 'quizizz',
+          select: '-user',
+          populate: [
+            { path: 'questionType', select: 'code name' },
+            { path: 'questions', select: 'title score' },
+          ],
+        },
+      ],
     };
     const query = q
       ? {
@@ -38,9 +54,6 @@ export class UserService {
     /* loại bỏ các trường dữ liệu không cần thiết khi trả dữ liệu về */
     users.docs = users.docs.map((user) => {
       user.password = undefined;
-      user.isDeleted = undefined;
-      user.quizizz = undefined;
-      user.quizzExam = undefined;
       return user;
     });
     return users.docs;
@@ -65,9 +78,6 @@ export class UserService {
     }
     /* loại bỏ các trường dữ liệu không cần thiết khi trả dữ liệu về */
     newUser.password = undefined;
-    newUser.isDeleted = undefined;
-    newUser.quizizz = undefined;
-    newUser.quizzExam = undefined;
     return newUser;
   }
 
@@ -108,6 +118,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+    /* delete quizizz mà người dùng đã tạo */
     return { message: 'Delete user successfully' };
   }
 

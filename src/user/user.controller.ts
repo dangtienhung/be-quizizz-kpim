@@ -33,13 +33,10 @@ export class UserController {
   /* create user */
   @Post('create')
   async createUser(@Body() user: CreateUserDto): Promise<User> {
-    const userReal = plainToClass(CreateUserDto, user, {
-      excludeExtraneousValues: true,
-    });
     /* create avatar */
     const avatar = `https://ui-avatars.com/api/?name=${user.name}`;
     user.avatar = avatar;
-    return await this.userService.createUser(userReal);
+    return await this.userService.createUser(user);
   }
 
   /* get user by id */

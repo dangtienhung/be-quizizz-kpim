@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { QuestionType } from 'src/quizizz-quesstion-type/schema/question-type.schema';
+import { QuizizzExamQuestion } from 'src/quizizz-exam-question/schema/quizizz-exam-question.schema';
 import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.schema';
 import { User } from 'src/user/schema/user.schema';
 import mongoose from 'mongoose';
@@ -10,7 +11,7 @@ import mongoose from 'mongoose';
   versionKey: false,
 })
 export class QuizizzExam {
-  @Prop()
+  @Prop({ required: true })
   title: string;
 
   @Prop()
@@ -22,26 +23,29 @@ export class QuizizzExam {
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' }])
   questions: QuizizzQuestion[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
+  user: User[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionType' })
   questionType: QuestionType;
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExamQuestion' })
+  questionExam: QuizizzExamQuestion;
+
   @Prop({ type: Boolean, default: true })
   isPublic: boolean;
+
+  @Prop({ type: Number })
+  plays: number = null;
 
   @Prop({ type: Boolean, default: false })
   isDeleted: boolean;
 
-  @Prop({ type: Date, default: Date.now() })
+  @Prop({ type: Date, default: Date.now(), required: true })
   startDate: Date;
 
-  @Prop({ type: Date, default: Date.now() })
+  @Prop({ type: Date, default: Date.now(), required: true })
   endDate: Date;
-
-  @Prop({ type: Number, default: 0 })
-  time: number;
 
   @Prop({ type: Number, default: 0 })
   totalQuestion: number;

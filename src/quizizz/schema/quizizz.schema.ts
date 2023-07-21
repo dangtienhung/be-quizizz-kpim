@@ -5,6 +5,12 @@ import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.sc
 import { User } from 'src/user/schema/user.schema';
 import mongoose from 'mongoose';
 
+enum StatusQuizizz {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  DRAFT = 'draft',
+}
+
 @Schema({
   timestamps: true,
   versionKey: false,
@@ -28,8 +34,8 @@ export class Quizizz {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionType' })
   questionType: QuestionType;
 
-  @Prop({ type: Boolean, default: true })
-  isPublic: boolean;
+  @Prop({ type: String, default: StatusQuizizz.ACTIVE })
+  status: StatusQuizizz;
 
   @Prop({ type: Boolean, default: false })
   isDeleted: boolean;

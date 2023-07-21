@@ -1,4 +1,11 @@
-import { IsBoolean, IsDateString, IsNumber, IsString } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
@@ -17,10 +24,14 @@ export class BaseDto {
   slug: string;
 
   @ApiProperty()
+  @IsArray()
+  @ArrayNotEmpty()
   questions: ObjectId[]; // Change to array of string IDs of QuizizzQuestion
 
   @ApiProperty()
-  user: ObjectId; // Change to string ID of User
+  @IsArray()
+  @ArrayNotEmpty()
+  user: ObjectId[]; // Change to string ID of User
 
   @ApiProperty()
   questionType: ObjectId; // Change to string ID of QuestionType
@@ -43,7 +54,7 @@ export class BaseDto {
 
   @ApiProperty()
   @IsNumber()
-  time: number;
+  plays: number = null;
 
   @ApiProperty()
   @IsNumber()

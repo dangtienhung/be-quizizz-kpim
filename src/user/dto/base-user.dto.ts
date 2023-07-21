@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { ObjectId } from 'mongoose';
 
 export class BaseUserDto {
   name: string;
@@ -15,9 +16,9 @@ export class BaseUserDto {
 
   status: string;
 
-  quizz: string[];
+  quizizz: ObjectId[];
 
-  quizzExam: string[];
+  quizzExam: ObjectId[];
 
   isDeleted: boolean;
 
