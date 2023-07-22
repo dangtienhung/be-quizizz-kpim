@@ -16,11 +16,9 @@ export class BaseDto {
   title: string;
 
   @ApiProperty()
-  @IsString()
   description: string;
 
   @ApiProperty()
-  @IsString()
   slug: string;
 
   @ApiProperty()
@@ -38,19 +36,17 @@ export class BaseDto {
 
   @ApiProperty()
   @IsBoolean()
-  isPublic: boolean;
+  isPublic: boolean = true;
 
   @ApiProperty()
   @IsBoolean()
-  isDeleted: boolean;
+  isDeleted: boolean = false;
 
   @ApiProperty()
-  @IsDateString()
-  startDate: Date;
+  startDate: string;
 
   @ApiProperty()
-  @IsDateString()
-  endDate: Date;
+  endDate: string;
 
   @ApiProperty()
   @IsNumber()
@@ -58,29 +54,25 @@ export class BaseDto {
 
   @ApiProperty()
   @IsNumber()
-  totalQuestion: number;
+  totalPoint: number = 0;
 
   @ApiProperty()
   @IsNumber()
-  totalPoint: number;
+  totalStudent: number = 0;
 
   @ApiProperty()
   @IsNumber()
-  totalStudent: number;
+  totalStudentDone: number = 0;
 
   @ApiProperty()
   @IsNumber()
-  totalStudentDone: number;
+  totalStudentNotDone: number = 0;
 
   @ApiProperty()
   @IsNumber()
-  totalStudentNotDone: number;
+  totalStudentDoing: number = 0;
 
   @ApiProperty()
   @IsNumber()
-  totalStudentDoing: number;
-
-  @ApiProperty()
-  @IsNumber()
-  totalStudentNotDoing: number;
+  totalStudentNotDoing: number = 0;
 }

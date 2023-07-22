@@ -1,6 +1,7 @@
 import {
   Controller,
   Query,
+  Put,
   Get,
   Post,
   Body,
@@ -13,6 +14,7 @@ import { CreateQuizizzDto } from './dto/create.dto';
 import slugify from 'slugify';
 import { ObjectId } from 'mongoose';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateQuizizzDto } from './dto/update.dto';
 
 @ApiTags('Quizizz')
 @Controller('api/quizizz')
@@ -47,5 +49,14 @@ export class QuizizzController {
   @Get('detail/:id')
   async getOneQuizizz(@Param('id') id: ObjectId): Promise<Quizizz> {
     return await this.quizizzService.getOneQuizizz(id);
+  }
+
+  /* update */
+  @Put('update/:id')
+  async update(
+    @Param('id') id: ObjectId,
+    @Body() body: UpdateQuizizzDto,
+  ): Promise<Quizizz> {
+    return await this.quizizzService.update(id, body);
   }
 }

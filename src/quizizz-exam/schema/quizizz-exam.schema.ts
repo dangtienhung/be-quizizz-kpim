@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { QuestionType } from 'src/quizizz-quesstion-type/schema/question-type.schema';
+import { Quizizz } from 'src/quizizz/schema/quizizz.schema';
 import { QuizizzExamQuestion } from 'src/quizizz-exam-question/schema/quizizz-exam-question.schema';
-import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.schema';
 import { User } from 'src/user/schema/user.schema';
 import mongoose from 'mongoose';
 
@@ -20,8 +20,8 @@ export class QuizizzExam {
   @Prop()
   slug: string;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' }])
-  questions: QuizizzQuestion[];
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizizz' }])
+  questions: Quizizz[];
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   user: User[];
@@ -46,9 +46,6 @@ export class QuizizzExam {
 
   @Prop({ type: Date, default: Date.now(), required: true })
   endDate: Date;
-
-  @Prop({ type: Number, default: 0 })
-  totalQuestion: number;
 
   @Prop({ type: Number, default: 0 })
   totalPoint: number;

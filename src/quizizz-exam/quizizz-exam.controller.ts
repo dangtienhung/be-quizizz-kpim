@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Put,
   Query,
   Post,
   Delete,
@@ -12,6 +13,7 @@ import { QuizizzExam } from './schema/quizizz-exam.schema';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateQuizizzExam } from './dto/create.dto';
 import { ObjectId } from 'mongoose';
+import { UpdateQuizizzExam } from './dto/update.dto';
 
 @ApiTags('Quizizz Exam')
 @Controller('api/quizizz-exam')
@@ -35,5 +37,18 @@ export class QuizizzExamController {
   @Delete('delete/:id')
   async delete(@Param('id') id: ObjectId): Promise<QuizizzExam> {
     return this.quizizzExamService.delete(id);
+  }
+
+  @Get('/detail/:id')
+  async detail(@Param('id') id: ObjectId): Promise<QuizizzExam> {
+    return this.quizizzExamService.getOne(id);
+  }
+
+  @Put('/update/:id')
+  async update(
+    @Param('id') id: ObjectId,
+    @Body() body: UpdateQuizizzExam,
+  ): Promise<QuizizzExam> {
+    return this.quizizzExamService.update(id, body);
   }
 }
