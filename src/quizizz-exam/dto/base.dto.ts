@@ -28,7 +28,6 @@ export class BaseDto {
 
   @ApiProperty()
   @IsArray()
-  @ArrayNotEmpty()
   user: ObjectId[]; // Change to string ID of User
 
   @ApiProperty()
