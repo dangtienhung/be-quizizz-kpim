@@ -11,7 +11,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginateModel } from 'mongoose';
 import { QuestionType } from 'src/quizizz-quesstion-type/schema/question-type.schema';
 import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.schema';
-
+import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserService {
   constructor(
@@ -21,6 +21,14 @@ export class UserService {
     @InjectModel(QuizizzQuestion.name)
     private quizizzQuestionModel: PaginateModel<QuizizzQuestion>,
   ) {}
+
+  /* tạo ra token */
+  private generateToken(userId: string) {
+    const token = jwt.sign({ _id: userId }, process.env.JWT_SECRET, {
+      expiresIn: '1d',
+    });
+    return token;
+  }
 
   /* get all user */
   async getAllUser(_page: number, _limit: number, q: string): Promise<User[]> {
@@ -147,5 +155,30 @@ export class UserService {
   async restoreUserById(id: string): Promise<{ message: string }> {
     await this.updateIsDeleted(id, false);
     return { message: 'Restore user successfully' };
+  }
+
+  /* login */
+  async login({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<{ data: User; accessToken: string }> {
+    const user = await this.userModel.findOne({ email: email }).exec();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword) {
+      throw new BadRequestException('Password is incorrect');
+    }
+    if (user && checkPassword) {
+      /* loại bỏ các trường dữ liệu không cần thiết khi trả dữ liệu về */
+      user.password = undefined;
+      /* tạo ra token */
+      const accessToken = this.generateToken(user._id.toString());
+      return { data: user, accessToken };
+    }
   }
 }

@@ -12,9 +12,9 @@ import {
 import { User } from './schema/user.schema';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { plainToClass } from 'class-transformer';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { LoginUserDto } from './dto/login-user.dto';
 @ApiTags('Authentication & Authorization')
 @Controller('api/users')
 export class UserController {
@@ -67,5 +67,13 @@ export class UserController {
   @Put('restore/:id')
   async restoreUserById(@Param('id') id: string) {
     return await this.userService.restoreUserById(id);
+  }
+
+  /* đăng nhập */
+  @Post('login')
+  async login(
+    @Body() user: LoginUserDto,
+  ): Promise<{ data: User; accessToken: string }> {
+    return await this.userService.login(user);
   }
 }
