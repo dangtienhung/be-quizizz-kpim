@@ -59,26 +59,26 @@ export class QuizizzQuestionService {
         .exec();
     }
     /* update quizizz question type */
-    await this.questionTypeModel
-      .findByIdAndUpdate(
-        { _id: question.questionType },
-        { $addToSet: { questions: question._id } },
-      )
-      .exec();
+    // await this.questionTypeModel
+    //   .findByIdAndUpdate(
+    //     { _id: question.questionType },
+    //     { $addToSet: { questions: question._id } },
+    //   )
+    //   .exec();
     /* update quizizz question level */
-    await this.quizizzQuestionLevelModel
-      .findByIdAndUpdate(
-        { _id: question.questionLevel },
-        { $addToSet: { questions: question._id } },
-      )
-      .exec();
+    // await this.quizizzQuestionLevelModel
+    //   .findByIdAndUpdate(
+    //     { _id: question.questionLevel },
+    //     { $addToSet: { questions: question._id } },
+    //   )
+    //   .exec();
     /* update quizizz question group */
-    await this.quizizzQuestionGroupModel
-      .findByIdAndUpdate(
-        { _id: question.questionGroup },
-        { $addToSet: { questions: question._id } },
-      )
-      .exec();
+    // await this.quizizzQuestionGroupModel
+    //   .findByIdAndUpdate(
+    //     { _id: question.questionGroup },
+    //     { $addToSet: { questions: question._id } },
+    //   )
+    //   .exec();
     return question;
   }
 
@@ -93,13 +93,13 @@ export class QuizizzQuestionService {
       limit: _limit,
       sort: { createdAt: -1 },
       populate: [
-        { path: 'questionLevel', select: '-questions -quizz_question' },
-        { path: 'questionGroup', select: '-questions -isDeleted' },
-        {
-          path: 'questionType',
-          model: QuestionType.name,
-          select: '-questions -isDeleted',
-        },
+        // { path: 'questionLevel', select: '-questions -quizz_question' },
+        // { path: 'questionGroup', select: '-questions -isDeleted' },
+        // {
+        //   path: 'questionType',
+        //   model: QuestionType.name,
+        //   select: '-questions -isDeleted',
+        // },
         { path: 'questionAnswers', select: '-quizz_question' },
       ],
     };
@@ -180,32 +180,32 @@ export class QuizizzQuestionService {
       }
     }
     /* update quizizz question type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: question.questionType },
-      { $pull: { questions: question._id } },
-    );
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: body.questionType },
-      { $addToSet: { questions: question._id } },
-    );
+    // await this.questionTypeModel.findByIdAndUpdate(
+    //   { _id: question.questionType },
+    //   { $pull: { questions: question._id } },
+    // );
+    // await this.questionTypeModel.findByIdAndUpdate(
+    //   { _id: body.questionType },
+    //   { $addToSet: { questions: question._id } },
+    // );
     /* update quizizz question level */
-    await this.quizizzQuestionLevelModel.findByIdAndUpdate(
-      { _id: question.questionLevel },
-      { $pull: { questions: question._id } },
-    );
-    await this.quizizzQuestionLevelModel.findByIdAndUpdate(
-      { _id: body.questionLevel },
-      { $addToSet: { questions: question._id } },
-    );
+    // await this.quizizzQuestionLevelModel.findByIdAndUpdate(
+    //   { _id: question.questionLevel },
+    //   { $pull: { questions: question._id } },
+    // );
+    // await this.quizizzQuestionLevelModel.findByIdAndUpdate(
+    //   { _id: body.questionLevel },
+    //   { $addToSet: { questions: question._id } },
+    // );
     /* update quizizz question group */
-    await this.quizizzQuestionGroupModel.findByIdAndUpdate(
-      { _id: question.questionGroup },
-      { $pull: { questions: question._id } },
-    );
-    await this.quizizzQuestionGroupModel.findByIdAndUpdate(
-      { _id: body.questionGroup },
-      { $addToSet: { questions: question._id } },
-    );
+    // await this.quizizzQuestionGroupModel.findByIdAndUpdate(
+    //   { _id: question.questionGroup },
+    //   { $pull: { questions: question._id } },
+    // );
+    // await this.quizizzQuestionGroupModel.findByIdAndUpdate(
+    //   { _id: body.questionGroup },
+    //   { $addToSet: { questions: question._id } },
+    // );
     return question;
   }
 
@@ -224,26 +224,26 @@ export class QuizizzQuestionService {
       }
     }
     /* xóa id câu hỏi ra khỏi quizizz level */
-    await this.quizizzQuestionLevelModel
-      .findByIdAndUpdate(
-        { _id: question.questionLevel },
-        { $pull: { questions: question._id } },
-      )
-      .exec();
+    // await this.quizizzQuestionLevelModel
+    //   .findByIdAndUpdate(
+    //     { _id: question.questionLevel },
+    //     { $pull: { questions: question._id } },
+    //   )
+    //   .exec();
     /* xóa id câu hỏi ra khỏi quizizz group */
-    await this.quizizzQuestionGroupModel
-      .findByIdAndUpdate(
-        { _id: question.questionGroup },
-        { $pull: { questions: question._id } },
-      )
-      .exec();
+    // await this.quizizzQuestionGroupModel
+    //   .findByIdAndUpdate(
+    //     { _id: question.questionGroup },
+    //     { $pull: { questions: question._id } },
+    //   )
+    //   .exec();
     /* xóa id câu hỏi ra khỏi quizizz type */
-    await this.questionTypeModel
-      .findByIdAndUpdate(
-        { _id: question.questionType },
-        { $pull: { questions: question._id } },
-      )
-      .exec();
+    // await this.questionTypeModel
+    //   .findByIdAndUpdate(
+    //     { _id: question.questionType },
+    //     { $pull: { questions: question._id } },
+    //   )
+    //   .exec();
     /* xóa câu hỏi */
     const questionDeleted = await this.quizizzQuestionModel
       .findByIdAndDelete(id)

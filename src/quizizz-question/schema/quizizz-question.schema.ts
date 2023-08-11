@@ -27,21 +27,21 @@ export class QuizizzQuestion {
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizizz' }])
   quizizz: Quizizz[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestionType' })
-  questionType: QuestionType;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestionType' })
+  // questionType: QuestionType;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzAnswer' }])
   questionAnswers: QuizizzAnswer[];
 
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'QuizizzQuestionLevel',
-    required: true,
-  })
-  questionLevel: QuizizzQuestionLevel;
+  // @Prop({
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'QuizizzQuestionLevel',
+  //   required: true,
+  // })
+  // questionLevel: QuizizzQuestionLevel;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestionGroup' })
-  questionGroup: QuizizzQuestionGroup;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestionGroup' })
+  // questionGroup: QuizizzQuestionGroup;
 
   @Prop({ type: Number, default: 0 })
   timer: number;

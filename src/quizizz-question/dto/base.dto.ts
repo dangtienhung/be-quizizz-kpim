@@ -21,8 +21,8 @@ export abstract class BaseDto {
 
   isDeleted: boolean;
 
-  @IsNotEmpty()
-  questionType: ObjectId;
+  // @IsNotEmpty()
+  // questionType: ObjectId;
 
   // @ValidateNested({ each: true })
   // @Type(() => CreateQuizizzAnswerDto)
@@ -37,9 +37,9 @@ export abstract class BaseDto {
     };
   }[];
 
-  @IsNotEmpty()
-  questionLevel: ObjectId;
+  // @IsNotEmpty()
+  // questionLevel: ObjectId;
 
-  @IsNotEmpty()
-  questionGroup: Object;
+  // @IsNotEmpty()
+  // questionGroup: Object;
 }
