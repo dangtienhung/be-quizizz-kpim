@@ -2,6 +2,7 @@ import {
   QuestionType,
   QuestionTypeSchema,
 } from './../quizizz-quesstion-type/schema/question-type.schema';
+import { Quizizz, QuizizzSchema } from 'src/quizizz/schema/quizizz.schema';
 import {
   QuizizzAnswer,
   QuizizzAnswerSchema,
@@ -73,6 +74,14 @@ const schemas = [
         name: QuizizzQuestionGroup.name,
         useFactory: () => {
           const schema = QuizizzQuestionGroupSchema;
+          schema.plugin(require('mongoose-paginate-v2'));
+          return schema;
+        },
+      },
+      {
+        name: Quizizz.name,
+        useFactory: () => {
+          const schema = QuizizzSchema;
           schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },

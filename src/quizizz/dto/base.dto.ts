@@ -37,23 +37,21 @@ class QuestionTypeDto {
 
 export abstract class BaseDto {
   @IsString()
-  @IsNotEmpty()
-  readonly title: string;
+  title: string;
 
   readonly description: string;
 
   slug: string;
 
   @IsArray()
-  @ArrayNotEmpty()
   readonly questions: QuizizzQuestionDto[];
 
   @IsNotEmpty()
   @Type(() => UserDto)
   readonly user: ObjectId;
 
-  @Type(() => QuestionTypeDto)
-  readonly questionType: QuestionTypeDto;
+  // @Type(() => QuestionTypeDto)
+  // readonly questionType: QuestionTypeDto;
 
   @IsEnum(StatusQuizizz)
   readonly status: StatusQuizizz = StatusQuizizz.ACTIVE;

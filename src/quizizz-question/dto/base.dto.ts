@@ -21,6 +21,10 @@ export abstract class BaseDto {
 
   isDeleted: boolean;
 
+  @IsString()
+  @IsNotEmpty()
+  quizizz: ObjectId;
+
   // @IsNotEmpty()
   // questionType: ObjectId;
 

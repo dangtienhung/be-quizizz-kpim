@@ -8,6 +8,7 @@ import { QuizizzAnswer } from 'src/quizizz-answer/schema/quizizz-answer.schema';
 import { QuizizzQuestionLevel } from 'src/quizizz-question-level/schema/quizizz-question-level.schema';
 import { QuizizzQuestionGroup } from 'src/quizizz-question-group/schema/quizizz-question-group.schema';
 import { UpdateQuestionQuizizz } from './dto/update.dto';
+import { Quizizz } from 'src/quizizz/schema/quizizz.schema';
 
 @Injectable()
 export class QuizizzQuestionService {
@@ -22,6 +23,8 @@ export class QuizizzQuestionService {
     private quizizzQuestionLevelModel: PaginateModel<QuizizzQuestionLevel>,
     @InjectModel(QuizizzQuestionGroup.name)
     private quizizzQuestionGroupModel: PaginateModel<QuizizzQuestionGroup>,
+    @InjectModel(Quizizz.name)
+    private readonly quizizzModel: PaginateModel<Quizizz>,
   ) {}
 
   /* thêm dữ liệu */
@@ -58,6 +61,13 @@ export class QuizizzQuestionService {
         )
         .exec();
     }
+    /* update quizizz */
+    await this.quizizzModel
+      .findByIdAndUpdate(
+        { _id: body.quizizz },
+        { $addToSet: { questions: question._id } },
+      )
+      .exec();
     /* update quizizz question type */
     // await this.questionTypeModel
     //   .findByIdAndUpdate(
@@ -100,7 +110,7 @@ export class QuizizzQuestionService {
         //   model: QuestionType.name,
         //   select: '-questions -isDeleted',
         // },
-        { path: 'questionAnswers', select: '-quizz_question' },
+        // { path: 'questionAnswers', select: '-quizz_question' },
       ],
     };
     const query = q ? { title: { $regex: q, $options: 'i' } } : {};
@@ -118,11 +128,11 @@ export class QuizizzQuestionService {
       .populate([
         { path: 'questionLevel', select: '-questions -quizz_question' },
         { path: 'questionGroup', select: '-questions -isDeleted' },
-        {
-          path: 'questionType',
-          model: QuestionType.name,
-          select: '-questions -isDeleted',
-        },
+        // {
+        //   path: 'questionType',
+        //   model: QuestionType.name,
+        //   select: '-questions -isDeleted',
+        // },
         { path: 'questionAnswers', select: '-quizz_question' },
       ])
       .exec();

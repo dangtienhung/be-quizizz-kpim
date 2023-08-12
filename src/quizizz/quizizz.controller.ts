@@ -31,6 +31,22 @@ export class QuizizzController {
     return await this.quizizzService.getAllQuizizzs(_page, _limit, q);
   }
 
+  /* get all quizizz by user id */
+  @Get('lists/:id')
+  async getAllQuizizzsByUserId(
+    @Query('_page') _page: number = 1,
+    @Query('_limit') _limit: number = 10,
+    @Query('q') q: string = '',
+    @Param('id') id: ObjectId,
+  ): Promise<Quizizz[]> {
+    return await this.quizizzService.getAllQuizizzsByUserId(
+      _page,
+      _limit,
+      q,
+      id,
+    );
+  }
+
   /* create */
   @Post('/create')
   async create(@Body() body: CreateQuizizzDto): Promise<Quizizz> {

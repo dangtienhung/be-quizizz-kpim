@@ -36,20 +36,12 @@ export class QuizizzService {
       populate: [
         {
           path: 'questions',
-          model: this.quizizzQuestionModel,
+          select: '_id title score',
           populate: [
-            {
-              path: 'questionType',
-              model: this.questionTypeModel,
-              select: '-questions',
-            },
-            { path: 'questionAnswers', select: '-quizz_question' },
-            { path: 'questionLevel', select: '-questions -quizz_question' },
-            { path: 'questionGroup', select: '-isDeleted -questions' },
+            { path: 'questionAnswers', select: '_id content isCorrect' },
           ],
         },
         { path: 'user', select: '-password -quizz -quizzExam -quizizz' },
-        { path: 'questionType', select: '-quizizz -questions' },
       ],
     };
     const query = q ? { $title: { $search: q } } : {};
@@ -60,17 +52,43 @@ export class QuizizzService {
     return quizizzs.docs;
   }
 
+  /* lấy ra tất cả các bài quiz theo id của user */
+  async getAllQuizizzsByUserId(
+    _page: number,
+    _limit: number,
+    q: string,
+    userId: ObjectId,
+  ): Promise<Quizizz[]> {
+    const options = {
+      page: _page,
+      limit: _limit,
+      sort: { createdAt: -1 },
+      populate: [
+        {
+          path: 'questions',
+          select: '_id title score',
+          populate: [
+            { path: 'questionAnswers', select: '_id content isCorrect' },
+          ],
+        },
+        { path: 'user', select: '-password -quizz -quizzExam -quizizz' },
+      ],
+    };
+    const query = q ? { $title: { $search: q } } : {};
+    const quizizzs = await this.quizizzModel.paginate(
+      {
+        user: userId,
+      },
+      options,
+    );
+    if (!quizizzs) {
+      throw new NotFoundException('Not found quizizz');
+    }
+    return quizizzs.docs;
+  }
+
   /* create */
   async create(quizizz: CreateQuizizzDto): Promise<Quizizz> {
-    /* tìm slug */
-    const quizizzExit = await this.quizizzModel
-      .findOne({
-        slug: quizizz.slug,
-      })
-      .exec();
-    if (quizizzExit) {
-      throw new BadRequestException('Slug already exists');
-    }
     const newQuizizz = await this.quizizzModel.create(quizizz);
     if (!newQuizizz) {
       throw new NotFoundException('Not found quizizz');
@@ -83,17 +101,19 @@ export class QuizizzService {
       )
       .exec();
     /* update quizizz vào type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: newQuizizz.questionType },
-      { $addToSet: { quizizz: newQuizizz._id } },
-    );
+    // await this.questionTypeModel.findByIdAndUpdate(
+    //   { _id: newQuizizz.questionType },
+    //   { $addToSet: { quizizz: newQuizizz._id } },
+    // );
     /* cập nhật vào quizizz question */
     if (newQuizizz.questions.length > 0) {
       for (let question of newQuizizz.questions) {
-        await this.quizizzQuestionModel.findByIdAndUpdate(
-          { _id: question },
-          { $addToSet: { quizizz: newQuizizz._id } },
-        );
+        await this.quizizzQuestionModel
+          .findByIdAndUpdate(
+            { _id: question },
+            { $addToSet: { quizizz: newQuizizz._id } },
+          )
+          .exec();
       }
     }
     return newQuizizz;
@@ -116,16 +136,18 @@ export class QuizizzService {
     /* xóa id quizizz trong question đi */
     if (quizizzExit.questions.length > 0) {
       for (let question of quizizzExit.questions) {
-        await this.quizizzQuestionModel.findByIdAndUpdate({
-          _id: question,
-        });
+        await this.quizizzQuestionModel
+          .findByIdAndUpdate({
+            _id: question,
+          })
+          .exec();
       }
     }
     /* type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: quizizzExit.questionType },
-      { $pull: { quizizz: quizizzExit._id } },
-    );
+    // await this.questionTypeModel.findByIdAndUpdate(
+    //   { _id: quizizzExit.questionType },
+    //   { $pull: { quizizz: quizizzExit._id } },
+    // );
     const quizizz = await this.quizizzModel.findByIdAndDelete(id).exec();
     if (!quizizz) {
       throw new NotFoundException('Not found quizizz');
@@ -140,20 +162,12 @@ export class QuizizzService {
       .populate([
         {
           path: 'questions',
-          model: this.quizizzQuestionModel,
+          select: '_id title score',
           populate: [
-            {
-              path: 'questionType',
-              model: this.questionTypeModel,
-              select: '-questions',
-            },
-            { path: 'questionAnswers', select: '-quizz_question' },
-            { path: 'questionLevel', select: '-questions -quizz_question' },
-            { path: 'questionGroup', select: '-isDeleted -questions' },
+            { path: 'questionAnswers', select: '_id content isCorrect' },
           ],
         },
         { path: 'user', select: '-password -quizz -quizzExam -quizizz' },
-        { path: 'questionType', select: '-quizizz -questions' },
       ])
       .exec();
     if (!quizizz) {
@@ -170,40 +184,42 @@ export class QuizizzService {
       throw new NotFoundException('Not found quizizz');
     }
     /* update quizizz vào type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: quizizzExit.questionType },
-      { $pull: { quizizz: quizizzExit._id } },
-    );
+    // await this.questionTypeModel.findByIdAndUpdate(
+    //   { _id: quizizzExit.questionType },
+    //   { $pull: { quizizz: quizizzExit._id } },
+    // );
     /* xóa question trong quiz đi */
     if (quizizzExit.questions.length > 0) {
       for (let question of quizizzExit.questions) {
-        await this.quizizzQuestionModel.findByIdAndUpdate(
-          { _id: question },
-          { $pull: { quizizz: quizizzExit._id } },
-        );
+        await this.quizizzQuestionModel
+          .findByIdAndUpdate(
+            { _id: question },
+            { $pull: { quizizz: quizizzExit._id } },
+          )
+          .exec();
       }
     }
     /* update quizizz */
-    const quizizz = await this.quizizzModel.findByIdAndUpdate(
-      { _id: id },
-      body,
-      { new: true },
-    );
+    const quizizz = await this.quizizzModel
+      .findByIdAndUpdate({ _id: id }, body, { new: true })
+      .exec();
     if (!quizizz) {
       throw new NotFoundException('Not found quizizz');
     }
     /* update quizizz vào type */
-    await this.questionTypeModel.findByIdAndUpdate(
-      { _id: quizizz.questionType },
-      { $addToSet: { quizizz: quizizz._id } },
-    );
+    // await this.questionTypeModel.findByIdAndUpdate(
+    //   { _id: quizizz.questionType },
+    //   { $addToSet: { quizizz: quizizz._id } },
+    // );
     /* update question vào quizizz */
     if (quizizz.questions.length > 0) {
       for (let question of quizizz.questions) {
-        await this.quizizzQuestionModel.findByIdAndUpdate(
-          { _id: question },
-          { $addToSet: { quizizz: quizizz._id } },
-        );
+        await this.quizizzQuestionModel
+          .findByIdAndUpdate(
+            { _id: question },
+            { $addToSet: { quizizz: quizizz._id } },
+          )
+          .exec();
       }
     }
     return quizizz;

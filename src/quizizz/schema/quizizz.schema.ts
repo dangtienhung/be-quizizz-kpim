@@ -31,8 +31,8 @@ export class Quizizz {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionType' })
-  questionType: QuestionType;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionType' })
+  // questionType: QuestionType;
 
   @Prop({ type: String, default: StatusQuizizz.ACTIVE })
   status: StatusQuizizz;
