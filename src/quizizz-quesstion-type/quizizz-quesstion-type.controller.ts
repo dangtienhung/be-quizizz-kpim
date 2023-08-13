@@ -32,9 +32,9 @@ export class QuizizzQuesstionTypeController {
   /* lấy tất cả dữ liệu */
   @Get('lists')
   async getAll(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuestionType[]> {
     return await this.quizizzQuesstionTypeService.getAll(_page, _limit, q);
   }
@@ -75,9 +75,9 @@ export class QuizizzQuesstionTypeController {
   /* lấy ra dánh sách dữ liệu chỉ có is delete true */
   @Get('trash')
   async getTrash(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuestionType[]> {
     return await this.quizizzQuesstionTypeService.getTrash(_page, _limit, q);
   }

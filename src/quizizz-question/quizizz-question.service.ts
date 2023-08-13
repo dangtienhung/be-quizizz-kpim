@@ -33,7 +33,7 @@ export class QuizizzQuestionService {
     /* tạo mới câu trả lời */
     const answersId = [];
     if (answers.length > 0) {
-      for (let answer of answers) {
+      for (const answer of answers) {
         const newAnswer = await this.quizizzAnswerModel.create(answer);
         if (!newAnswer) {
           throw new NotFoundException('Answer not found');
@@ -47,7 +47,7 @@ export class QuizizzQuestionService {
       throw new NotFoundException('Question not found');
     }
     /* update quiziz answer */
-    for (let answerId of answersId) {
+    for (const answerId of answersId) {
       const questionQuestionAnswer = await this.quizizzAnswerModel
         .findById({ _id: answerId })
         .exec();
@@ -156,7 +156,7 @@ export class QuizizzQuestionService {
     const answersId = questionExist.questionAnswers;
     /* xóa hết các câu hỏi cũ đi */
     if (answersId.length > 0) {
-      for (let answerId of answersId) {
+      for (const answerId of answersId) {
         await this.quizizzAnswerModel.findByIdAndDelete(answerId);
       }
     }
@@ -164,7 +164,7 @@ export class QuizizzQuestionService {
     const answerIds = [];
     const answers = body.questionAnswers;
     if (answers.length > 0) {
-      for (let answer of answers) {
+      for (const answer of answers) {
         const newAnswer = await this.quizizzAnswerModel.create(answer);
         if (!newAnswer) {
           throw new NotFoundException('Answer not found');
@@ -182,7 +182,7 @@ export class QuizizzQuestionService {
     }
     /* update quiziz answer */
     if (answerIds.length > 0) {
-      for (let answerId of answerIds) {
+      for (const answerId of answerIds) {
         await this.quizizzAnswerModel.findByIdAndUpdate(
           { _id: answerId },
           { $addToSet: { quizz_question: question._id } },
@@ -229,7 +229,7 @@ export class QuizizzQuestionService {
     /* xóa các câu trả lời */
     const answersId = question.questionAnswers;
     if (answersId.length > 0) {
-      for (let answerId of answersId) {
+      for (const answerId of answersId) {
         await this.quizizzAnswerModel.findByIdAndDelete(answerId).exec();
       }
     }

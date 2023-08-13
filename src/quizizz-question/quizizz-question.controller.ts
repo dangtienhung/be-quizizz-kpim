@@ -30,9 +30,9 @@ export class QuizizzQuestionController {
 
   @Get('lists')
   async getList(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestion[]> {
     return await this.quizizzQuestionService.getAll(_page, _limit, q);
   }

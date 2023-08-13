@@ -8,7 +8,7 @@ export class BaseDto {
   content: string;
 
   @IsBoolean()
-  isCorrect: boolean = false;
+  isCorrect = false;
 
   @IsNotEmpty()
   quizz_question: ObjectId;

@@ -21,9 +21,9 @@ export class QuizizzExamQuestionController {
 
   @Get('lists')
   async findAll(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzExamQuestion[]> {
     return await this.quizizzExamQuestionService.findAll(_page, _limit, q);
   }

@@ -50,16 +50,15 @@ export class QuizizzExamService {
   }
 
   async create(quizizzExam: CreateQuizizzExam): Promise<any> {
+    const newQuizizzExam = await this.quizizzExamModel.create(quizizzExam);
+    if (!newQuizizzExam) {
+      throw new NotFoundException('Not found quizizz exam');
+    }
     console.log(
-      '🚀 ~ file: quizizz-exam.service.ts:53 ~ QuizizzExamService ~ create ~ quizizzExam:',
-      quizizzExam,
+      '🚀 ~ file: quizizz-exam.service.ts:54 ~ QuizizzExamService ~ create ~ newQuizizzExam:',
+      newQuizizzExam,
     );
-    // const newQuizizzExam = await this.quizizzExamModel.create(quizizzExam);
-    // if (!newQuizizzExam) {
-    //   throw new NotFoundException('Not found quizizz exam');
-    // }
-
-    return quizizzExam;
+    return newQuizizzExam;
   }
 
   async delete(id: ObjectId): Promise<QuizizzExam> {
@@ -82,11 +81,11 @@ export class QuizizzExamService {
           populate: [
             {
               path: 'questions',
-              select: 'title score',
+              select: '_id title score questionAnswers timer',
+              populate: [{ path: 'questionAnswers', select: '_id content' }],
             },
           ],
         },
-        { path: 'user', select: 'name' },
       ])
       .exec();
     if (!quizizzExam) {

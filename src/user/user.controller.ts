@@ -23,9 +23,9 @@ export class UserController {
   /* get all user */
   @Get()
   async getAllUsers(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<User[]> {
     return await this.userService.getAllUser(_page, _limit, q);
   }

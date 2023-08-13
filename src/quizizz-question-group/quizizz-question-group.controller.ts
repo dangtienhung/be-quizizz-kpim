@@ -32,9 +32,9 @@ export class QuizizzQuestionGroupController {
   /* lấy danh sách group câu hỏi */
   @Get('/lists')
   async getAllLists(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionGroup[]> {
     return await this.quizizzQuestionGroupService.getAll(_page, _limit, q);
   }
@@ -75,9 +75,9 @@ export class QuizizzQuestionGroupController {
   /* lấy ra các quizizz group delete false */
   @Get('/lists-restore')
   async getAllRestore(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionGroup[]> {
     return await this.quizizzQuestionGroupService.getAllRestore(
       _page,
@@ -89,9 +89,9 @@ export class QuizizzQuestionGroupController {
   /* lấy ra các quizizz group delete true */
   @Get('/lists-delete')
   async getAllDelete(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionGroup[]> {
     return await this.quizizzQuestionGroupService.getAllDelete(
       _page,

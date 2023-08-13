@@ -22,9 +22,9 @@ export class QuizizzExamController {
 
   @Get('/lists')
   async findAll(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzExam[]> {
     return this.quizizzExamService.findAll(_page, _limit, q);
   }

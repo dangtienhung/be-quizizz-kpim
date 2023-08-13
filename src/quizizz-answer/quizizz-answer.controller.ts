@@ -18,9 +18,9 @@ export class QuizizzAnswerController {
   /* get detail */
   @Get('lists')
   async getList(
-    @Param('_page') _page: number = 1,
-    @Param('_limit') _limit: number = 10,
-    @Param('q') q: string = '',
+    @Param('_page') _page = 1,
+    @Param('_limit') _limit = 10,
+    @Param('q') q = '',
   ): Promise<QuizizzAnswer[]> {
     return await this.quizizzAnswerService.getList(_page, _limit, q);
   }

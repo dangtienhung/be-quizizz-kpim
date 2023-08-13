@@ -107,7 +107,7 @@ export class QuizizzService {
     // );
     /* cập nhật vào quizizz question */
     if (newQuizizz.questions.length > 0) {
-      for (let question of newQuizizz.questions) {
+      for (const question of newQuizizz.questions) {
         await this.quizizzQuestionModel
           .findByIdAndUpdate(
             { _id: question },
@@ -135,7 +135,7 @@ export class QuizizzService {
       .exec();
     /* xóa id quizizz trong question đi */
     if (quizizzExit.questions.length > 0) {
-      for (let question of quizizzExit.questions) {
+      for (const question of quizizzExit.questions) {
         await this.quizizzQuestionModel
           .findByIdAndUpdate({
             _id: question,
@@ -190,7 +190,7 @@ export class QuizizzService {
     // );
     /* xóa question trong quiz đi */
     if (quizizzExit.questions.length > 0) {
-      for (let question of quizizzExit.questions) {
+      for (const question of quizizzExit.questions) {
         await this.quizizzQuestionModel
           .findByIdAndUpdate(
             { _id: question },
@@ -213,7 +213,7 @@ export class QuizizzService {
     // );
     /* update question vào quizizz */
     if (quizizz.questions.length > 0) {
-      for (let question of quizizz.questions) {
+      for (const question of quizizz.questions) {
         await this.quizizzQuestionModel
           .findByIdAndUpdate(
             { _id: question },

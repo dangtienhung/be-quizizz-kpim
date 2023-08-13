@@ -20,7 +20,7 @@ export class BaseDto {
   description: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   thumbnail: string;
 
   @ApiProperty()
@@ -34,11 +34,11 @@ export class BaseDto {
 
   @ApiProperty()
   @IsBoolean()
-  isPublic: boolean = true;
+  isPublic = true;
 
   @ApiProperty()
   @IsBoolean()
-  isDeleted: boolean = false;
+  isDeleted = false;
 
   @ApiProperty()
   startDate: string;

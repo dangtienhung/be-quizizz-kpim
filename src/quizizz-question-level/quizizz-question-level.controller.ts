@@ -22,9 +22,9 @@ export class QuizizzQuestionLevelController {
   /* lấy ra tất cả các danh sách */
   @Get('/lists')
   async getList(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionLevel[]> {
     return await this.quizizzQuestionLevelService.getAll(_page, _limit, q);
   }
@@ -32,9 +32,9 @@ export class QuizizzQuestionLevelController {
   /* lấy ra tất cả các câu hỏi theo level */
   @Get('/level-easy')
   async getAllLevelEasy(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionLevel[]> {
     return await this.quizizzQuestionLevelService.getAllLevelEasy(
       _page,
@@ -45,9 +45,9 @@ export class QuizizzQuestionLevelController {
 
   @Get('/level-medium')
   async getAllLevelMedium(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionLevel[]> {
     return await this.quizizzQuestionLevelService.getAllLevelMedium(
       _page,
@@ -58,9 +58,9 @@ export class QuizizzQuestionLevelController {
 
   @Get('/level-hard')
   async getAllLevelHard(
-    @Query('_page') _page: number = 1,
-    @Query('_limit') _limit: number = 10,
-    @Query('q') q: string = '',
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('q') q = '',
   ): Promise<QuizizzQuestionLevel[]> {
     return await this.quizizzQuestionLevelService.getAllLevelHard(
       _page,

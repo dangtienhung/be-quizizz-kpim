@@ -15,7 +15,7 @@ export abstract class BaseDto {
 
   @IsNumber()
   @IsNotEmpty()
-  score: number = 0;
+  score = 0;
 
   active: boolean;
 

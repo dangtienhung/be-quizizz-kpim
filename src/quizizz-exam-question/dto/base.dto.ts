@@ -14,10 +14,10 @@ export class BaseDto {
   score: number;
 
   @IsBoolean()
-  active: boolean = true;
+  active = true;
 
   @IsBoolean()
-  isDeleted: boolean = false;
+  isDeleted = false;
 
   @ArrayNotEmpty()
   @IsArray()

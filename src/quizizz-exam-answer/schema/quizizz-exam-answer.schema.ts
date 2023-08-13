@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-
-import { QuizizzExamQuestion } from 'src/quizizz-exam-question/schema/quizizz-exam-question.schema';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 @Schema({
   timestamps: true,
@@ -9,19 +7,13 @@ import mongoose from 'mongoose';
 })
 export class QuizizzExamAnswer {
   @Prop()
-  content: string;
+  userId: string;
 
   @Prop()
-  isCorrect: boolean;
+  quizizzExamQuestionId: string;
 
-  @Prop({ default: true })
-  active: boolean;
-
-  @Prop({ default: false })
-  isDeleted: boolean;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExamQuestion' })
-  answerQuestion: QuizizzExamQuestion;
+  @Prop()
+  quizizzExamQuestionAnswerId: string[];
 }
 
 export type QuizizzExamAnswerDocument = QuizizzExamAnswer &

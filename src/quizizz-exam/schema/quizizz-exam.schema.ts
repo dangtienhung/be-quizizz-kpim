@@ -23,8 +23,8 @@ export class QuizizzExam {
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   user: User[];
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExamQuestion' }])
-  questions: QuizizzExamQuestion[];
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizizz' }])
+  questions: Quizizz[];
 
   @Prop({ type: Boolean, default: true })
   isPublic: boolean;
