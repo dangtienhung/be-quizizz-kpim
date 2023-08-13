@@ -18,19 +18,13 @@ export class QuizizzExam {
   description: string;
 
   @Prop()
-  slug: string;
-
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizizz' }])
-  questions: Quizizz[];
+  thumbnail: string;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   user: User[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionType' })
-  questionType: QuestionType;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExamQuestion' })
-  questionExam: QuizizzExamQuestion;
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExamQuestion' }])
+  questions: QuizizzExamQuestion[];
 
   @Prop({ type: Boolean, default: true })
   isPublic: boolean;
@@ -46,24 +40,6 @@ export class QuizizzExam {
 
   @Prop({ type: Date, default: Date.now(), required: true })
   endDate: Date;
-
-  @Prop({ type: Number, default: 0 })
-  totalPoint: number;
-
-  @Prop({ type: Number, default: 0 })
-  totalStudent: number;
-
-  @Prop({ type: Number, default: 0 })
-  totalStudentDone: number;
-
-  @Prop({ type: Number, default: 0 })
-  totalStudentNotDone: number;
-
-  @Prop({ type: Number, default: 0 })
-  totalStudentDoing: number;
-
-  @Prop({ type: Number, default: 0 })
-  totalStudentNotDoing: number;
 }
 
 export type QuizizzExamDocument = QuizizzExam & mongoose.Document<QuizizzExam>;

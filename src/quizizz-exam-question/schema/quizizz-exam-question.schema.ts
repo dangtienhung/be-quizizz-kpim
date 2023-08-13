@@ -10,25 +10,14 @@ import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.sc
   versionKey: false,
 })
 export class QuizizzExamQuestion {
-  // @Prop()
-  // title: string;
-
-  // @Prop()
-  // score: number;
-
-  // @Prop({ default: true })
-  // active: boolean;
-
-  // @Prop({ default: false })
-  // isDeleted: boolean;
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' })
-  questions: QuizizzQuestion[];
+  @Prop()
+  questionText: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExam' })
   questionExam: QuizizzExam;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzExamAnswer' }])
-  answers: QuizizzExamAnswer[];
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'QuizizzQuestion' }])
+  options: QuizizzQuestion[];
 }
 
 export type QuizizzExamQuestionDocument = QuizizzExamQuestion &

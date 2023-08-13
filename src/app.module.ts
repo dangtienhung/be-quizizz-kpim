@@ -14,6 +14,7 @@ import { QuizizzModule } from './quizizz/quizizz.module';
 import { QuizizzExamModule } from './quizizz-exam/quizizz-exam.module';
 import { QuizizzExamQuestionModule } from './quizizz-exam-question/quizizz-exam-question.module';
 import { QuizizzExamAnswerModule } from './quizizz-exam-answer/quizizz-exam-answer.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { QuizizzExamAnswerModule } from './quizizz-exam-answer/quizizz-exam-answ
     QuizizzExamModule,
     QuizizzExamQuestionModule,
     QuizizzExamAnswerModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

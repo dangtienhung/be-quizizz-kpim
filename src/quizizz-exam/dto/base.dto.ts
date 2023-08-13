@@ -3,6 +3,7 @@ import {
   IsArray,
   IsBoolean,
   IsDateString,
+  IsNotEmpty,
   IsNumber,
   IsString,
 } from 'class-validator';
@@ -19,19 +20,17 @@ export class BaseDto {
   description: string;
 
   @ApiProperty()
-  slug: string;
-
-  @ApiProperty()
-  @IsArray()
-  @ArrayNotEmpty()
-  questions: ObjectId[]; // Change to array of string IDs of QuizizzQuestion
+  @IsNotEmpty()
+  thumbnail: string;
 
   @ApiProperty()
   @IsArray()
   user: ObjectId[]; // Change to string ID of User
 
   @ApiProperty()
-  questionType: ObjectId; // Change to string ID of QuestionType
+  @IsArray()
+  @ArrayNotEmpty()
+  questions: ObjectId[]; // Change to string ID of QuizizzExamQuestion
 
   @ApiProperty()
   @IsBoolean()
@@ -46,32 +45,4 @@ export class BaseDto {
 
   @ApiProperty()
   endDate: string;
-
-  @ApiProperty()
-  @IsNumber()
-  plays: number = null;
-
-  @ApiProperty()
-  @IsNumber()
-  totalPoint: number = 0;
-
-  @ApiProperty()
-  @IsNumber()
-  totalStudent: number = 0;
-
-  @ApiProperty()
-  @IsNumber()
-  totalStudentDone: number = 0;
-
-  @ApiProperty()
-  @IsNumber()
-  totalStudentNotDone: number = 0;
-
-  @ApiProperty()
-  @IsNumber()
-  totalStudentDoing: number = 0;
-
-  @ApiProperty()
-  @IsNumber()
-  totalStudentNotDoing: number = 0;
 }

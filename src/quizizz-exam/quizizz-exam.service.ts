@@ -50,25 +50,15 @@ export class QuizizzExamService {
   }
 
   async create(quizizzExam: CreateQuizizzExam): Promise<any> {
-    const newQuizizzExam = await this.quizizzExamModel.create(quizizzExam);
-    if (!newQuizizzExam) {
-      throw new NotFoundException('Not found quizizz exam');
-    }
-    /* tạo ra quizizz question exam */
-    const data = {
-      questions: newQuizizzExam.questions,
-      questionExam: newQuizizzExam._id,
-    };
     console.log(
-      '🚀 ~ file: quizizz-exam.service.ts:66 ~ QuizizzExamService ~ create ~ data:',
-      data,
+      '🚀 ~ file: quizizz-exam.service.ts:53 ~ QuizizzExamService ~ create ~ quizizzExam:',
+      quizizzExam,
     );
-    const newQuizizzExamQuestion = await this.quizizzExamQuestionModel.create(
-      data,
-    );
-    if (!newQuizizzExamQuestion) {
-      throw new NotFoundException('Not found quizizz exam question');
-    }
+    // const newQuizizzExam = await this.quizizzExamModel.create(quizizzExam);
+    // if (!newQuizizzExam) {
+    //   throw new NotFoundException('Not found quizizz exam');
+    // }
+
     return quizizzExam;
   }
 
