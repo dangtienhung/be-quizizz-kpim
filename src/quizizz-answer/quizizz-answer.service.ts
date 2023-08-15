@@ -29,6 +29,17 @@ export class QuizizzAnswerService {
     return quizizzAnswer;
   }
 
+  /* tìm ra câu trả lời đúng */
+  async getCorrectAnswer(questionId: string) {
+    const quizizzAnswer = await this.model
+      .findOne({ quizz_question: questionId, isCorrect: true })
+      .exec();
+    if (!quizizzAnswer) {
+      throw new NotFoundException('Không tìm thấy câu trả lời');
+    }
+    return quizizzAnswer;
+  }
+
   /* lấy danh sách câu trả lời */
   async getList(
     _page: number,

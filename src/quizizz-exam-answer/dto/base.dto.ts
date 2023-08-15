@@ -20,5 +20,5 @@ export class BaseDto {
   @IsNotEmpty()
   @IsArray()
   @ArrayNotEmpty()
-  quizizzExamQuestionAnswerId: ObjectId[];
+  quizizzExamQuestionAnswerId: string;
 }

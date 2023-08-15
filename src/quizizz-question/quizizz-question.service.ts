@@ -126,8 +126,8 @@ export class QuizizzQuestionService {
     const question = await this.quizizzQuestionModel
       .findById(id)
       .populate([
-        { path: 'questionLevel', select: '-questions -quizz_question' },
-        { path: 'questionGroup', select: '-questions -isDeleted' },
+        // { path: 'questionLevel', select: '-questions -quizz_question' },
+        // { path: 'questionGroup', select: '-questions -isDeleted' },
         // {
         //   path: 'questionType',
         //   model: QuestionType.name,

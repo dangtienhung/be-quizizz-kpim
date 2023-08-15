@@ -15,7 +15,7 @@ export class QuizizzAnswerController {
     return await this.quizizzAnswerService.create(body);
   }
 
-  /* get detail */
+  /* get list */
   @Get('lists')
   async getList(
     @Param('_page') _page = 1,
@@ -26,5 +26,8 @@ export class QuizizzAnswerController {
   }
 
   /* get list */
-  // @Get()
+  @Get('detail/:id')
+  async getDetail(@Param('id') id: string) {
+    return await this.quizizzAnswerService.getDetail(id);
+  }
 }

@@ -1,3 +1,4 @@
+import { Injectable, Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -9,17 +10,14 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { CreateQuizizzExamAnswerDto } from 'src/quizizz-exam-answer/dto/create.dto';
-import { Logger } from '@nestjs/common';
+import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
 
 @WebSocketGateway({ cors: true })
 export class QuizizzGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   private logger: Logger = new Logger('MessageGateway');
-
-  constructor() {
-    console.log(this.logger);
-  }
+  constructor(private quizAnserExamService: QuizizzExamAnswerService) {}
 
   @WebSocketServer()
   server: Server;
@@ -40,10 +38,15 @@ export class QuizizzGateway
     client: Socket,
     payload: CreateQuizizzExamAnswerDto,
   ) {
-    console.log('🚀 ~ file: quizizz.gateway.ts:33 ~ client:', client);
-    console.log('answerSubmitted', payload);
-    const isAnswered = true; /* kiểm tra câu hỏi đã được trả lời chưa */
+    /* kiểm tra câu hỏi đã được trả lời chưa */
+    const data = {
+      questionId: payload.quizizzExamQuestionId,
+      answerId: payload.quizizzExamQuestionAnswerId,
+    };
+    const isAnswered = await this.quizAnserExamService.checkAnswer(data);
     /* thêm đáp án câu trả lời vào db */
-    console.log('🚀 ~ file: quizizz.gateway.ts:35 ~ isAnswered:', isAnswered);
+    await this.quizAnserExamService.createAnswer(payload);
+    /* gửi đáp án câu trả lời cho client */
+    this.server.emit('answerResult', isAnswered);
   }
 }
