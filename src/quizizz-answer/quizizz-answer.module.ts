@@ -7,7 +7,6 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { QuizizzAnswerController } from './quizizz-answer.controller';
 import { QuizizzAnswerService } from './quizizz-answer.service';
-import { QuizizzExamModule } from 'src/quizizz-exam/quizizz-exam.module';
 
 @Module({
   controllers: [QuizizzAnswerController],

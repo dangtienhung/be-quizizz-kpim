@@ -15,11 +15,7 @@ import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel('User') private readonly userModel: PaginateModel<User>,
-    @InjectModel(QuestionType.name)
-    private questionTypeModel: PaginateModel<QuestionType>,
-    @InjectModel(QuizizzQuestion.name)
-    private quizizzQuestionModel: PaginateModel<QuizizzQuestion>,
+    @InjectModel('User') private readonly userModel: PaginateModel<User>, // @InjectModel(QuestionType.name) // private questionTypeModel: PaginateModel<QuestionType>, // @InjectModel(QuizizzQuestion.name) // private quizizzQuestionModel: PaginateModel<QuizizzQuestion>,
   ) {}
 
   /* tạo ra token */
@@ -180,5 +176,23 @@ export class UserService {
       const accessToken = this.generateToken(user._id.toString());
       return { data: user, accessToken };
     }
+  }
+
+  /* thêm phòng chơi vào quizExam */
+  async addQuizizzToUser({ roomId, useId }: { roomId: string; useId: string }) {
+    const useExits = await this.userModel.findById(useId).exec();
+    // nếu mà không thấy ngưởi dùng thì báo lỗi
+    if (!useExits) {
+      throw new NotFoundException('User not found');
+    }
+    // Nếu người dùng tồn tại, hãy kiểm tra xem idRoom đã có trong quizzExam của người dùng chưa
+    const checkRoom = await this.userModel.find({ quizzExam: roomId }).exec();
+    if (checkRoom && checkRoom.length === 0) {
+      /* thêm vào quizExam của người dùng */
+      await this.userModel
+        .findByIdAndUpdate({ _id: useId }, { $push: { quizzExam: roomId } })
+        .exec();
+    }
+    return { message: 'Add quizizz to user successfully' };
   }
 }

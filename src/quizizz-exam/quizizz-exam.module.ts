@@ -7,6 +7,7 @@ import {
   QuizizzExamQuestion,
   QuizizzExamQuestionSchema,
 } from 'src/quizizz-exam-question/schema/quizizz-exam-question.schema';
+import { User, UserSchema } from 'src/user/schema/user.schema';
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -15,10 +16,16 @@ import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-a
 import { QuizizzExamController } from './quizizz-exam.controller';
 import { QuizizzExamService } from './quizizz-exam.service';
 import { QuizizzGateway } from '../gatewaies/quizizz.gateway';
+import { UserService } from 'src/user/user.service';
 
 @Module({
   controllers: [QuizizzExamController],
-  providers: [QuizizzExamService, QuizizzGateway, QuizizzExamAnswerService],
+  providers: [
+    QuizizzExamService,
+    QuizizzGateway,
+    QuizizzExamAnswerService,
+    UserService,
+  ],
   imports: [
     MongooseModule.forFeatureAsync([
       {
@@ -41,6 +48,14 @@ import { QuizizzGateway } from '../gatewaies/quizizz.gateway';
         name: QuizizzExamAnswer.name,
         useFactory: () => {
           const schema = QuizizzExamAnswerSchema;
+          schema.plugin(require('mongoose-paginate-v2'));
+          return schema;
+        },
+      },
+      {
+        name: User.name,
+        useFactory: () => {
+          const schema = UserSchema;
           schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },

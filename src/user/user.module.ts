@@ -27,22 +27,22 @@ import mongosePaginate from 'mongoose-paginate-v2';
           return schema;
         },
       },
-      {
-        name: QuestionType.name,
-        useFactory: () => {
-          const schema = QuestionTypeSchema;
-          schema.plugin(require('mongoose-paginate-v2'));
-          return schema;
-        },
-      },
-      {
-        name: QuizizzQuestion.name,
-        useFactory: () => {
-          const schema = QuizizzQuestionSchema;
-          schema.plugin(require('mongoose-paginate-v2'));
-          return schema;
-        },
-      },
+      // {
+      //   name: QuestionType.name,
+      //   useFactory: () => {
+      //     const schema = QuestionTypeSchema;
+      //     schema.plugin(require('mongoose-paginate-v2'));
+      //     return schema;
+      //   },
+      // },
+      // {
+      //   name: QuizizzQuestion.name,
+      //   useFactory: () => {
+      //     const schema = QuizizzQuestionSchema;
+      //     schema.plugin(require('mongoose-paginate-v2'));
+      //     return schema;
+      //   },
+      // },
     ]),
   ],
 })

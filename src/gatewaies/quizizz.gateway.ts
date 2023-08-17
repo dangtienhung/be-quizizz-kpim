@@ -11,13 +11,17 @@ import { Server, Socket } from 'socket.io';
 
 import { CreateQuizizzExamAnswerDto } from 'src/quizizz-exam-answer/dto/create.dto';
 import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
+import { UserService } from 'src/user/user.service';
 
 @WebSocketGateway({ cors: true })
 export class QuizizzGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   private logger: Logger = new Logger('MessageGateway');
-  constructor(private quizAnserExamService: QuizizzExamAnswerService) {}
+  constructor(
+    private quizAnserExamService: QuizizzExamAnswerService,
+    private userService: UserService,
+  ) {}
 
   @WebSocketServer()
   server: Server;
@@ -31,6 +35,16 @@ export class QuizizzGateway
 
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
+  }
+
+  /* lưu thông tin phòng chơi vào quiz-exam của người dùng */
+  @SubscribeMessage('joinRoom')
+  async handleJoinRoom(
+    client: Socket,
+    payload: { roomId: string; useId: string },
+  ) {
+    /* kiểm tra xem người dùng đó có tồn tại hay không và add thêm vào quizExam đã chơi  */
+    await this.userService.addQuizizzToUser(payload);
   }
 
   @SubscribeMessage('answerSubmitted')
