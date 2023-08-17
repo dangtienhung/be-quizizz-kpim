@@ -8,7 +8,10 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // Enable CORS
-  app.enableCors();
+  app.enableCors({
+    origin: ['https://fe-quizizz.vercel.app', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  });
   /* doc swagger */
   const config = new DocumentBuilder()
     .setTitle('Quản lý API Quizizz')

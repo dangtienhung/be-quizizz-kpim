@@ -13,7 +13,12 @@ import { CreateQuizizzExamAnswerDto } from 'src/quizizz-exam-answer/dto/create.d
 import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
 import { UserService } from 'src/user/user.service';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+  cors: {
+    origin: ['https://fe-quizizz.vercel.app', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  },
+})
 export class QuizizzGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
