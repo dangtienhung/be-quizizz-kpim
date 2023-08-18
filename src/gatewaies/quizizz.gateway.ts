@@ -1,4 +1,3 @@
-import { Injectable, Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -10,6 +9,7 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { CreateQuizizzExamAnswerDto } from 'src/quizizz-exam-answer/dto/create.dto';
+import { Logger } from '@nestjs/common';
 import { QuizActivityService } from 'src/quiz-activity/quiz-activity.service';
 import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
 import { UserService } from 'src/user/user.service';
@@ -69,7 +69,6 @@ export class QuizizzGateway
     };
     const isAnswered = await this.quizAnserExamService.checkAnswer(data);
     /* thêm đáp án câu trả lời vào db */
-    // await this.quizAnserExamService.createAnswer(payload);
     /* gửi đáp án câu trả lời cho client */
     this.server.emit('answerResult', isAnswered);
   }
@@ -77,6 +76,7 @@ export class QuizizzGateway
   /* thêm hoạt động người dùng vào */
   @SubscribeMessage('addQuizizzActivity')
   async handleAddQuizizzActivity(client: Socket, data: any) {
-    await this.quizActivityService.create(data);
+    const quizizzActivity = await this.quizActivityService.create(data);
+    this.server.emit('quizizzActivity', quizizzActivity);
   }
 }

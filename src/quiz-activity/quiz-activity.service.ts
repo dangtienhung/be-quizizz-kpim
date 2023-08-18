@@ -12,11 +12,19 @@ export class QuizActivityService {
   ) {}
 
   async create(quizActivity: CreateQuizizzActivityDto): Promise<QuizActivity> {
-    console.log(
-      '🚀 ~ file: quiz-activity.service.ts:14 ~ QuizActivityService ~ create ~ quizActivity:',
-      quizActivity,
-    );
-    const newQuizActivity = await this.quizActivityModel.create(quizActivity);
+    const newQuizActivity = (
+      await this.quizActivityModel.create(quizActivity)
+    ).populate([
+      { path: 'quizizzExamId', select: 'title startDate endDate' },
+      { path: 'userId', select: 'name avatar' },
+      { path: 'answers.answerSelect', select: 'content isCorrect' },
+      { path: 'answers.answerResult', select: 'content isCorrect' },
+      {
+        path: 'answers.question',
+        select: 'title',
+        populate: [{ path: 'questionAnswers', select: 'content isCorrect' }],
+      },
+    ]);
     return newQuizActivity;
   }
 
@@ -32,6 +40,17 @@ export class QuizActivityService {
         userId: useId,
         quizizzExamId: roomId,
       })
+      .populate([
+        { path: 'quizizzExamId', select: 'title startDate endDate' },
+        { path: 'userId', select: 'name avatar' },
+        { path: 'answers.answerSelect', select: 'content isCorrect' },
+        { path: 'answers.answerResult', select: 'content isCorrect' },
+        {
+          path: 'answers.question',
+          select: 'title',
+          populate: [{ path: 'questionAnswers', select: 'content isCorrect' }],
+        },
+      ])
       .exec();
     return quizActivities;
   }
