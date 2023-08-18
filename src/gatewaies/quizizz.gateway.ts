@@ -10,6 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 
 import { CreateQuizizzExamAnswerDto } from 'src/quizizz-exam-answer/dto/create.dto';
+import { QuizActivityService } from 'src/quiz-activity/quiz-activity.service';
 import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
 import { UserService } from 'src/user/user.service';
 
@@ -26,6 +27,7 @@ export class QuizizzGateway
   constructor(
     private quizAnserExamService: QuizizzExamAnswerService,
     private userService: UserService,
+    private quizActivityService: QuizActivityService,
   ) {}
 
   @WebSocketServer()
@@ -33,11 +35,13 @@ export class QuizizzGateway
 
   afterInit(server: Server) {}
 
+  /* connect socket */
   async handleConnection(client: Socket) {
     this.logger.log(client.id, 'Connected..............................');
     console.log(`Client connected: ${client.id}`);
   }
 
+  /* disconnect socket */
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
   }
@@ -52,6 +56,7 @@ export class QuizizzGateway
     await this.userService.addQuizizzToUser(payload);
   }
 
+  /* nhận câu hỏi người dùng gửi lên */
   @SubscribeMessage('answerSubmitted')
   async handleAnswerSubmitted(
     client: Socket,
@@ -64,8 +69,14 @@ export class QuizizzGateway
     };
     const isAnswered = await this.quizAnserExamService.checkAnswer(data);
     /* thêm đáp án câu trả lời vào db */
-    await this.quizAnserExamService.createAnswer(payload);
+    // await this.quizAnserExamService.createAnswer(payload);
     /* gửi đáp án câu trả lời cho client */
     this.server.emit('answerResult', isAnswered);
+  }
+
+  /* thêm hoạt động người dùng vào */
+  @SubscribeMessage('addQuizizzActivity')
+  async handleAddQuizizzActivity(client: Socket, data: any) {
+    await this.quizActivityService.create(data);
   }
 }

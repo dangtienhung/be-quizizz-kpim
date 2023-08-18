@@ -1,3 +1,7 @@
+import {
+  QuizActivity,
+  QuizActivitySchema,
+} from 'src/quiz-activity/schemas/quiz-activity.schemas';
 import { QuizizzExam, QuizizzExamSchema } from './schema/quizizz-exam.schema';
 import {
   QuizizzExamAnswer,
@@ -11,6 +15,7 @@ import { User, UserSchema } from 'src/user/schema/user.schema';
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { QuizActivityService } from 'src/quiz-activity/quiz-activity.service';
 import { QuizizzAnswerModule } from 'src/quizizz-answer/quizizz-answer.module';
 import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
 import { QuizizzExamController } from './quizizz-exam.controller';
@@ -25,6 +30,7 @@ import { UserService } from 'src/user/user.service';
     QuizizzGateway,
     QuizizzExamAnswerService,
     UserService,
+    QuizActivityService,
   ],
   imports: [
     MongooseModule.forFeatureAsync([
@@ -56,6 +62,14 @@ import { UserService } from 'src/user/user.service';
         name: User.name,
         useFactory: () => {
           const schema = UserSchema;
+          schema.plugin(require('mongoose-paginate-v2'));
+          return schema;
+        },
+      },
+      {
+        name: QuizActivity.name,
+        useFactory: () => {
+          const schema = QuizActivitySchema;
           schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },

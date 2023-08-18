@@ -11,6 +11,8 @@ async function bootstrap() {
   app.enableCors({
     origin: ['https://fe-quizizz.vercel.app', 'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   });
   /* doc swagger */
   const config = new DocumentBuilder()

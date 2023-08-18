@@ -18,6 +18,7 @@ import { QuizizzQuestionGroupModule } from './quizizz-question-group/quizizz-que
 import { QuizizzQuestionLevelModule } from './quizizz-question-level/quizizz-question-level.module';
 import { QuizizzQuestionModule } from './quizizz-question/quizizz-question.module';
 import { UserModule } from './user/user.module';
+import { QuizActivityModule } from './quiz-activity/quiz-activity.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { UserModule } from './user/user.module';
     MongooseModule.forFeature([
       { name: 'QuizizzExamAnswer', schema: QuizizzExamAnswerSchema },
     ]),
+    QuizActivityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
