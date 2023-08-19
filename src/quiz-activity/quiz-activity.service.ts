@@ -15,7 +15,25 @@ export class QuizActivityService {
     const newQuizActivity = (
       await this.quizActivityModel.create(quizActivity)
     ).populate([
-      { path: 'quizizzExamId', select: 'title startDate endDate' },
+      {
+        path: 'quizizzExamId',
+        select: 'questions',
+        populate: [
+          {
+            path: 'questions',
+            select: 'questions',
+            populate: [
+              {
+                path: 'questions',
+                select: 'title score',
+                populate: [
+                  { path: 'questionAnswers', select: 'content isCorrect' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       { path: 'userId', select: 'name avatar' },
       { path: 'answers.answerSelect', select: 'content isCorrect' },
       { path: 'answers.answerResult', select: 'content isCorrect' },
@@ -41,7 +59,25 @@ export class QuizActivityService {
         quizizzExamId: roomId,
       })
       .populate([
-        { path: 'quizizzExamId', select: 'title startDate endDate' },
+        {
+          path: 'quizizzExamId',
+          select: 'questions',
+          populate: [
+            {
+              path: 'questions',
+              select: 'questions',
+              populate: [
+                {
+                  path: 'questions',
+                  select: 'title score',
+                  populate: [
+                    { path: 'questionAnswers', select: 'content isCorrect' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
         { path: 'userId', select: 'name avatar' },
         { path: 'answers.answerSelect', select: 'content isCorrect' },
         { path: 'answers.answerResult', select: 'content isCorrect' },
@@ -53,5 +89,44 @@ export class QuizActivityService {
       ])
       .exec();
     return quizActivities;
+  }
+
+  async findOne(id: string): Promise<QuizActivity> {
+    const quizActivity = await this.quizActivityModel
+      .findById(id)
+      .populate([
+        {
+          path: 'quizizzExamId',
+          select: 'questions',
+          populate: [
+            {
+              path: 'questions',
+              select: 'questions',
+              populate: [
+                {
+                  path: 'questions',
+                  select: 'title score',
+                  populate: [
+                    { path: 'questionAnswers', select: 'content isCorrect' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        { path: 'userId', select: 'name avatar' },
+        { path: 'answers.answerSelect', select: 'content isCorrect' },
+        { path: 'answers.answerResult', select: 'content isCorrect' },
+        {
+          path: 'answers.question',
+          select: 'title',
+          populate: [{ path: 'questionAnswers', select: 'content isCorrect' }],
+        },
+      ])
+      .exec();
+    if (!quizActivity) {
+      throw new Error('QuizActivity not found');
+    }
+    return quizActivity;
   }
 }
