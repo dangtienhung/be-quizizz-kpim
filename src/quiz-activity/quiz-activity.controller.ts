@@ -9,6 +9,20 @@ import { QuizActivity } from './schemas/quiz-activity.schemas';
 export class QuizActivityController {
   constructor(private readonly quizActivityService: QuizActivityService) {}
 
+  /* lấy ra tất cả các bài quizizz mà người dùng chơi */
+  @Get('list-all')
+  async findAllQuizizzActivity(
+    @Query('_page') _page = 1,
+    @Query('_limit') _limit = 10,
+    @Query('userId') userId: string,
+  ) {
+    return this.quizActivityService.findAllQuizizzActivityByUserId({
+      userId,
+      _page,
+      _limit,
+    });
+  }
+
   @Get('list')
   async findAll(
     @Query('useId') useId: string,
