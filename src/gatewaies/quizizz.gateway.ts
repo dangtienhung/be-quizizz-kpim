@@ -54,6 +54,13 @@ export class QuizizzGateway
   ) {
     /* kiểm tra xem người dùng đó có tồn tại hay không và add thêm vào quizExam đã chơi  */
     await this.userService.addQuizizzToUser(payload);
+    /* lấy ra điểm của những người khác */
+    const scores = await this.quizActivityService.findAllScoreByQuizizzExamId(
+      payload.roomId,
+      payload.useId.toString(),
+    );
+    /* gửi điểm cho client */
+    this.server.emit('scores', scores);
   }
 
   /* nhận câu hỏi người dùng gửi lên */
@@ -68,7 +75,6 @@ export class QuizizzGateway
       answerId: payload.quizizzExamQuestionAnswerId,
     };
     const isAnswered = await this.quizAnserExamService.checkAnswer(data);
-    /* thêm đáp án câu trả lời vào db */
     /* gửi đáp án câu trả lời cho client */
     this.server.emit('answerResult', isAnswered);
   }

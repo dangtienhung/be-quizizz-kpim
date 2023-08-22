@@ -182,4 +182,22 @@ export class QuizActivityService {
     }
     return quizizzActivities.docs;
   }
+
+  /* lấy ra toàn bộ số điểm của những người chơi khác khi mà chơi cùng phòng quizzExamId đó */
+  async findAllScoreByQuizizzExamId(
+    roomId: string,
+    userId: string,
+  ): Promise<any> {
+    const quizizzActivities = await this.quizActivityModel
+      .find({ quizizzExamId: roomId })
+      .exec();
+    if (!quizizzActivities) {
+      throw new Error('QuizActivity not found');
+    }
+    /* lọc ra những userId !== userId gửi lên */
+    const scores = quizizzActivities.filter((quizizzActivity) => {
+      return quizizzActivity.userId.toString() !== userId.toString();
+    });
+    return scores;
+  }
 }

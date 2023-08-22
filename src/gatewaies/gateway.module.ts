@@ -2,6 +2,7 @@ import {
   QuizActivity,
   QuizActivitySchema,
 } from 'src/quiz-activity/schemas/quiz-activity.schemas';
+import { Quizizz, QuizizzSchema } from 'src/quizizz/schema/quizizz.schema';
 import {
   QuizizzExam,
   QuizizzExamSchema,
@@ -68,6 +69,14 @@ import { UserService } from 'src/user/user.service';
         name: QuizizzExamQuestion.name,
         useFactory: () => {
           const schema = QuizizzExamQuestionSchema;
+          schema.plugin(require('mongoose-paginate-v2'));
+          return schema;
+        },
+      },
+      {
+        name: Quizizz.name,
+        useFactory: () => {
+          const schema = QuizizzSchema;
           schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },

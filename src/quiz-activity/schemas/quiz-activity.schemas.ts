@@ -40,6 +40,12 @@ export class QuizActivity {
 
   @Prop([Answer])
   answers: Answer[];
+
+  @Prop({ type: Boolean, default: true })
+  isCompleted: boolean;
+
+  @Prop({ type: Number, default: 0 })
+  score: number;
 }
 
 export type QuizActivityDocument = QuizActivity &

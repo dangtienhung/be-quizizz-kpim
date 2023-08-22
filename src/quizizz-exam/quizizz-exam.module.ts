@@ -22,6 +22,7 @@ import { QuizizzExamController } from './quizizz-exam.controller';
 import { QuizizzExamService } from './quizizz-exam.service';
 import { QuizizzGateway } from '../gatewaies/quizizz.gateway';
 import { UserService } from 'src/user/user.service';
+import { Quizizz, QuizizzSchema } from 'src/quizizz/schema/quizizz.schema';
 
 @Module({
   controllers: [QuizizzExamController],
@@ -70,6 +71,14 @@ import { UserService } from 'src/user/user.service';
         name: QuizActivity.name,
         useFactory: () => {
           const schema = QuizActivitySchema;
+          schema.plugin(require('mongoose-paginate-v2'));
+          return schema;
+        },
+      },
+      {
+        name: Quizizz.name,
+        useFactory: () => {
+          const schema = QuizizzSchema;
           schema.plugin(require('mongoose-paginate-v2'));
           return schema;
         },

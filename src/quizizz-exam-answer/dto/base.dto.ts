@@ -3,6 +3,7 @@ import {
   IsArray,
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsString,
 } from 'class-validator';
 
@@ -15,10 +16,18 @@ export class BaseDto {
 
   @IsString()
   @IsNotEmpty()
+  roomId: string;
+
+  @IsString()
+  @IsNotEmpty()
   quizizzExamQuestionId: ObjectId;
 
   @IsNotEmpty()
   @IsArray()
   @ArrayNotEmpty()
   quizizzExamQuestionAnswerId: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  score: number;
 }
