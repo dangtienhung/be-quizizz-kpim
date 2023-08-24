@@ -19,6 +19,7 @@ import { QuizizzQuestionLevelModule } from './quizizz-question-level/quizizz-que
 import { QuizizzQuestionModule } from './quizizz-question/quizizz-question.module';
 import { UserModule } from './user/user.module';
 import { QuizActivityModule } from './quiz-activity/quiz-activity.module';
+import { QuizizzExamMutipleModule } from './quizizz-exam-mutiple/quizizz-exam-mutiple.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { QuizActivityModule } from './quiz-activity/quiz-activity.module';
       { name: 'QuizizzExamAnswer', schema: QuizizzExamAnswerSchema },
     ]),
     QuizActivityModule,
+    QuizizzExamMutipleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

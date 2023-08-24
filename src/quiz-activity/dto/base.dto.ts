@@ -17,4 +17,7 @@ export class BaseDto {
     score: number;
     answerResult: string;
   }[];
+
+  @IsNotEmpty()
+  score: number;
 }
