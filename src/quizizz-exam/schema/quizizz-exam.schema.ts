@@ -20,6 +20,9 @@ export class QuizizzExam {
   @Prop()
   thumbnail: string;
 
+  @Prop({ type: String })
+  code: string;
+
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   user: User[];
 

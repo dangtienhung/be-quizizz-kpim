@@ -28,6 +28,7 @@ export class QuizizzExamService {
       limit: _limit,
       sort: { createdAt: -1 },
       populate: [
+        { path: 'user', select: 'name email avatar' },
         {
           path: 'questions',
           select: 'questions',
@@ -53,6 +54,9 @@ export class QuizizzExamService {
   }
 
   async create(quizizzExam: CreateQuizizzExam): Promise<any> {
+    /* tạo ra 1 mã trò chơi gồm 6 chữ số ngẫu nhiên */
+    const code = Math.floor(100000 + Math.random() * 900000);
+    quizizzExam.code = code.toString();
     const newQuizizzExam = await this.quizizzExamModel.create(quizizzExam);
     if (!newQuizizzExam) {
       throw new NotFoundException('Not found quizizz exam');
@@ -62,11 +66,13 @@ export class QuizizzExamService {
       newQuizizzExam,
     );
     console.log(quizizzExam.questions[0]);
-    await this.quizizzModel.findByIdAndUpdate(
-      { _id: quizizzExam.questions[0] },
-      { title: newQuizizzExam.title },
-      { new: true },
-    );
+    await this.quizizzModel
+      .findByIdAndUpdate(
+        { _id: quizizzExam.questions[0] },
+        { title: newQuizizzExam.title },
+        { new: true },
+      )
+      .exec();
     return newQuizizzExam;
   }
 
@@ -84,6 +90,7 @@ export class QuizizzExamService {
     const quizizzExam = await this.quizizzExamModel
       .findById(id)
       .populate([
+        { path: 'user', select: 'name email avatar' },
         {
           path: 'questions',
           select: 'questions',
@@ -106,6 +113,60 @@ export class QuizizzExamService {
   async update(id: ObjectId, body: UpdateQuizizzExam): Promise<QuizizzExam> {
     const quizizzExam = await this.quizizzExamModel
       .findByIdAndUpdate({ _id: id }, body, { new: true })
+      .exec();
+    if (!quizizzExam) {
+      throw new NotFoundException('Not found quizizz exam');
+    }
+    return quizizzExam;
+  }
+
+  /* tìm ra quiziz exam bằng id questions */
+  async getQuizizzExamByQuestionId(id: string): Promise<any> {
+    const quizizzExam = await this.quizizzExamModel
+      .findOne({
+        questions: id,
+      })
+      .populate([
+        { path: 'user', select: 'name email avatar' },
+        {
+          path: 'questions',
+          select: 'questions',
+          populate: [
+            {
+              path: 'questions',
+              select: '_id title score questionAnswers timer',
+              populate: [{ path: 'questionAnswers', select: '_id content' }],
+            },
+          ],
+        },
+      ])
+      .exec();
+    if (!quizizzExam) {
+      throw new NotFoundException('Not found quizizz exam');
+    }
+    return quizizzExam;
+  }
+
+  /* tìm ra quizizz exam bằng code */
+  async getCodeExam(code: string): Promise<any> {
+    const quizizzExam = await this.quizizzExamModel
+      .findOne({
+        code: code,
+      })
+      .populate([
+        { path: 'user', select: 'name email avatar' },
+        {
+          path: 'questions',
+          select: 'questions',
+          populate: [
+            {
+              path: 'questions',
+              select: '_id title score questionAnswers timer',
+              populate: [{ path: 'questionAnswers', select: '_id content' }],
+            },
+          ],
+        },
+      ])
       .exec();
     if (!quizizzExam) {
       throw new NotFoundException('Not found quizizz exam');

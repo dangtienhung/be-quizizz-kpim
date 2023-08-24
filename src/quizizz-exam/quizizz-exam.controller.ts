@@ -51,4 +51,15 @@ export class QuizizzExamController {
   ): Promise<QuizizzExam> {
     return this.quizizzExamService.update(id, body);
   }
+
+  @Get('/get-quizizz-exam-by-question-id/:id')
+  async getQuizizzExamByQuestionId(@Param('id') id: string) {
+    return this.quizizzExamService.getQuizizzExamByQuestionId(id);
+  }
+
+  /* get code exam */
+  @Get('/get-code-exam/:code')
+  async getCodeExam(@Param('code') code: string) {
+    return this.quizizzExamService.getCodeExam(code);
+  }
 }

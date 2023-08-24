@@ -17,6 +17,10 @@ export class BaseDto {
   title: string;
 
   @ApiProperty()
+  @IsString()
+  code: string;
+
+  @ApiProperty()
   description: string;
 
   @ApiProperty()
