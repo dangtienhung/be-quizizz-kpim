@@ -10,6 +10,21 @@ import mongoose from 'mongoose';
   timestamps: true,
   versionKey: false,
 })
+export class UserInfo {
+  @Prop({ type: String })
+  name: string;
+
+  @Prop({ type: String })
+  avatar: string;
+
+  @Prop({ type: Number, default: 0 })
+  score: number;
+}
+
+@Schema({
+  timestamps: true,
+  versionKey: false,
+})
 export class QuizizzExam {
   @Prop({ required: true })
   title: string;
@@ -23,6 +38,11 @@ export class QuizizzExam {
   @Prop({ type: String })
   code: string;
 
+  /* người tham gia vào phòng chơi */
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
+  players: User[];
+
+  /* tác giả -> người tạo ra quizizz */
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   user: User[];
 

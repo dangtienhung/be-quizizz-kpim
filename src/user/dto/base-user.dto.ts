@@ -6,6 +6,8 @@ export class BaseUserDto {
 
   slug: string;
 
+  nameInGame: string;
+
   @IsNotEmpty()
   email: string;
 

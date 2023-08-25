@@ -9,8 +9,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginateModel } from 'mongoose';
-import { QuestionType } from 'src/quizizz-quesstion-type/schema/question-type.schema';
-import { QuizizzQuestion } from 'src/quizizz-question/schema/quizizz-question.schema';
 import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserService {
@@ -194,5 +192,19 @@ export class UserService {
         .exec();
     }
     return { message: 'Add quizizz to user successfully' };
+  }
+
+  /* cập nhật tên người dùng trong trò chơi */
+  async updateNameInQuizizzExam(
+    userId: string,
+    nameInGame: string,
+  ): Promise<{ message: string }> {
+    const user = await this.userModel
+      .findByIdAndUpdate({ _id: userId }, { nameInGame })
+      .exec();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return { message: 'Update name in game successfully' };
   }
 }

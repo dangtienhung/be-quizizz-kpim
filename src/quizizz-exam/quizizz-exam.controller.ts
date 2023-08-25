@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   Body,
+  Patch,
 } from '@nestjs/common';
 import { QuizizzExamService } from './quizizz-exam.service';
 import { QuizizzExam } from './schema/quizizz-exam.schema';
@@ -40,7 +41,7 @@ export class QuizizzExamController {
   }
 
   @Get('/detail/:id')
-  async detail(@Param('id') id: ObjectId): Promise<QuizizzExam> {
+  async detail(@Param('id') id: string): Promise<QuizizzExam> {
     return this.quizizzExamService.getOne(id);
   }
 
@@ -61,5 +62,23 @@ export class QuizizzExamController {
   @Get('/get-code-exam/:code')
   async getCodeExam(@Param('code') code: string) {
     return this.quizizzExamService.getCodeExam(code);
+  }
+
+  /* add playerId to exam */
+  @Get('/add-player-to-exam')
+  async addPlayerToExam(
+    @Query('roomId') roomId: string,
+    @Query('userId') userId: string,
+  ) {
+    return this.quizizzExamService.addPlayer(roomId, userId);
+  }
+
+  /* remove player to exam */
+  @Get('/remove-player-to-exam')
+  async removePlayerToExam(
+    @Query('roomId') roomId: string,
+    @Query('userId') userId: string,
+  ) {
+    return this.quizizzExamService.removePlayer(roomId, userId);
   }
 }

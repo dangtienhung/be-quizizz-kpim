@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   Query,
+  Patch,
 } from '@nestjs/common';
 
 import { User } from './schema/user.schema';
@@ -15,6 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ObjectId } from 'mongoose';
 @ApiTags('Authentication & Authorization')
 @Controller('api/users')
 export class UserController {
@@ -34,7 +36,7 @@ export class UserController {
   @Post('create')
   async createUser(@Body() user: CreateUserDto): Promise<User> {
     /* create avatar */
-    const avatar = `https://ui-avatars.com/api/?name=${user.name}`;
+    const avatar = `https://api.multiavatar.com/${user.name}.png`;
     user.avatar = avatar;
     return await this.userService.createUser(user);
   }
@@ -75,5 +77,14 @@ export class UserController {
     @Body() user: LoginUserDto,
   ): Promise<{ data: User; accessToken: string }> {
     return await this.userService.login(user);
+  }
+
+  /* cập nhật tên người trong trò chơi */
+  @Patch('update-name-in-game/:id')
+  async updateNameInGame(
+    @Param('id') id: string,
+    @Body() body: { nameInGame: string },
+  ) {
+    return await this.userService.updateNameInQuizizzExam(id, body.nameInGame);
   }
 }

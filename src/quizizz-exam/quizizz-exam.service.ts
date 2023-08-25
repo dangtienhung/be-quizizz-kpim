@@ -86,7 +86,7 @@ export class QuizizzExamService {
     return quizizzExam;
   }
 
-  async getOne(id: ObjectId): Promise<QuizizzExam> {
+  async getOne(id: string): Promise<QuizizzExam> {
     const quizizzExam = await this.quizizzExamModel
       .findById(id)
       .populate([
@@ -102,6 +102,7 @@ export class QuizizzExamService {
             },
           ],
         },
+        { path: 'players', select: 'name avatar nameInGame' },
       ])
       .exec();
     if (!quizizzExam) {
@@ -170,6 +171,44 @@ export class QuizizzExamService {
       .exec();
     if (!quizizzExam) {
       throw new NotFoundException('Not found quizizz exam');
+    }
+    return quizizzExam;
+  }
+
+  /* thêm idPlayer to players */
+  async addPlayer(roomId: string, idPlayer: string): Promise<any> {
+    const quizizzExam = await this.quizizzExamModel
+      .findById({ _id: roomId })
+      .exec();
+    if (!quizizzExam) {
+      throw new NotFoundException('Not found quizizz exam');
+    }
+    const result = await this.quizizzExamModel.findByIdAndUpdate(
+      { _id: quizizzExam._id },
+      {
+        $addToSet: { players: idPlayer },
+      },
+    );
+    return result;
+  }
+
+  /* gỡ idPlayer ra khỏi players */
+  async removePlayer(roomId: string, idPlayer: string) {
+    const quizizzExam = await this.quizizzExamModel
+      .findById({ _id: roomId })
+      .exec();
+    if (!quizizzExam) {
+      throw new NotFoundException('Not found quizizz exam');
+    }
+    for (let i = 0; i < quizizzExam.players.length; i++) {
+      if (quizizzExam.players[i].toString() == idPlayer.toString()) {
+        await this.quizizzExamModel.findByIdAndUpdate(
+          { _id: quizizzExam._id },
+          {
+            $pull: { players: idPlayer },
+          },
+        );
+      }
     }
     return quizizzExam;
   }

@@ -12,12 +12,13 @@ import { CreateQuizizzExamAnswerDto } from 'src/quizizz-exam-answer/dto/create.d
 import { Logger } from '@nestjs/common';
 import { QuizActivityService } from 'src/quiz-activity/quiz-activity.service';
 import { QuizizzExamAnswerService } from 'src/quizizz-exam-answer/quizizz-exam-answer.service';
+import { QuizizzExamService } from 'src/quizizz-exam/quizizz-exam.service';
 import { UserService } from 'src/user/user.service';
 
 @WebSocketGateway({
   cors: {
     origin: ['https://fe-quizizz.vercel.app', 'http://localhost:5173'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   },
 })
 export class QuizizzGateway
@@ -28,12 +29,15 @@ export class QuizizzGateway
     private quizAnserExamService: QuizizzExamAnswerService,
     private userService: UserService,
     private quizActivityService: QuizActivityService,
+    private quizizzExamService: QuizizzExamService,
   ) {}
 
   @WebSocketServer()
   server: Server;
 
-  afterInit(server: Server) {}
+  afterInit(server: Server) {
+    this.logger.log('Initialized..............................');
+  }
 
   /* connect socket */
   async handleConnection(client: Socket) {
@@ -85,4 +89,36 @@ export class QuizizzGateway
     const quizizzActivity = await this.quizActivityService.create(data);
     this.server.emit('quizizzActivity', quizizzActivity);
   }
+
+  /* mutiple game players */
+  /* cập nhật tên người dùng */
+  @SubscribeMessage('updateName')
+  async handleUpdateName(
+    client: Socket,
+    data: { userId: string; name: string },
+  ) {
+    const result = await this.userService.updateNameInQuizizzExam(
+      data.userId,
+      data.name,
+    );
+    this.server.emit('updateName', result);
+  }
+  /* lấy ra danh sách người chơi */
+  /* cập nhật người dùng */
+  @SubscribeMessage('addPlayerToExam')
+  async handleUpdatePlayer(
+    client: Socket,
+    data: { roomId: string; idPlayer: string },
+  ) {
+    const result = await this.quizizzExamService.addPlayer(
+      data.roomId,
+      data.idPlayer,
+    );
+    /* nếu mà có trả data về exam về cho người dùng */
+    if (result) {
+      const quizizzExam = await this.quizizzExamService.getOne(data.roomId);
+      this.server.emit('quizizzExam', quizizzExam);
+    }
+  }
+  /* lấy ra điểm của những người khác */
 }

@@ -22,6 +22,9 @@ export class User {
   @Prop({ type: String })
   name: string;
 
+  @Prop({ type: String, default: '' })
+  nameInGame: string;
+
   @Prop({ required: true })
   email: string;
 
