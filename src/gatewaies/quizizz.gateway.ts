@@ -58,6 +58,11 @@ export class QuizizzGateway
   ) {
     /* kiểm tra xem người dùng đó có tồn tại hay không và add thêm vào quizExam đã chơi  */
     await this.userService.addQuizizzToUser(payload);
+    /* gửi bài thi về */
+    const quizizzExam = await this.quizizzExamService.getOne(payload.roomId);
+    console.log('🚀 ~ file: quizizz.gateway.ts:63 ~ quizizzExam:', quizizzExam);
+    /* reset player */
+    // await this.quizizzExamService.resetPlayers(payload.roomId);
     /* lấy ra điểm của những người khác */
     const scores = await this.quizActivityService.findAllScoreByQuizizzExamId(
       payload.roomId,
@@ -65,6 +70,8 @@ export class QuizizzGateway
     );
     /* gửi điểm cho client */
     this.server.emit('scores', scores);
+    /* gửi bài thi về cho client */
+    this.server.emit('quizizzExam', quizizzExam);
   }
 
   /* nhận câu hỏi người dùng gửi lên */
@@ -121,4 +128,17 @@ export class QuizizzGateway
     }
   }
   /* lấy ra điểm của những người khác */
+  /* kích người chơi ra khỏi phòng chơi */
+  @SubscribeMessage('kickOutGame')
+  async handleKickOutGame(
+    client: Socket,
+    data: { roomId: string; idPlayer: string },
+  ) {
+    console.log(data.idPlayer);
+    await this.quizizzExamService.removePlayer(data.roomId, data.idPlayer);
+    const quizizzExam = await this.quizizzExamService.getOne(data.roomId);
+    this.server.emit('quizizzExam', quizizzExam);
+    /* gửi thông báo cho người bị kích là out game */
+    this.server.emit('outGame', data.idPlayer);
+  }
 }

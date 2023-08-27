@@ -201,15 +201,28 @@ export class QuizizzExamService {
       throw new NotFoundException('Not found quizizz exam');
     }
     for (let i = 0; i < quizizzExam.players.length; i++) {
-      if (quizizzExam.players[i].toString() == idPlayer.toString()) {
+      if (quizizzExam.players[i].toString() === idPlayer) {
         await this.quizizzExamModel.findByIdAndUpdate(
           { _id: quizizzExam._id },
-          {
-            $pull: { players: idPlayer },
-          },
+          { $pull: { players: idPlayer } },
         );
       }
     }
+    return quizizzExam;
+  }
+
+  /* xét danh sách players thành 0 */
+  async resetPlayers(roomId: string) {
+    const quizizzExam = await this.quizizzExamModel
+      .findById({ _id: roomId })
+      .exec();
+    if (!quizizzExam) {
+      throw new NotFoundException('Not found quizizz exam');
+    }
+    await this.quizizzExamModel.findByIdAndUpdate(
+      { _id: quizizzExam._id },
+      { $set: { players: [] } },
+    );
     return quizizzExam;
   }
 }
