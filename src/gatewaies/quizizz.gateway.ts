@@ -60,7 +60,6 @@ export class QuizizzGateway
     await this.userService.addQuizizzToUser(payload);
     /* gửi bài thi về */
     const quizizzExam = await this.quizizzExamService.getOne(payload.roomId);
-    console.log('🚀 ~ file: quizizz.gateway.ts:63 ~ quizizzExam:', quizizzExam);
     /* reset player */
     // await this.quizizzExamService.resetPlayers(payload.roomId);
     /* lấy ra điểm của những người khác */
@@ -134,11 +133,12 @@ export class QuizizzGateway
     client: Socket,
     data: { roomId: string; idPlayer: string },
   ) {
-    console.log(data.idPlayer);
     await this.quizizzExamService.removePlayer(data.roomId, data.idPlayer);
     const quizizzExam = await this.quizizzExamService.getOne(data.roomId);
+    /* chỉ gửi cho id gửi lên thôi thì làm như nào */
+    this.server.emit('outGame', data.idPlayer);
     this.server.emit('quizizzExam', quizizzExam);
     /* gửi thông báo cho người bị kích là out game */
-    this.server.emit('outGame', data.idPlayer);
+    // this.server.emit('outGame', data.idPlayer);
   }
 }
