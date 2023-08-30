@@ -61,7 +61,7 @@ export class QuizizzGateway
     /* gửi bài thi về */
     const quizizzExam = await this.quizizzExamService.getOne(payload.roomId);
     /* reset player */
-    // await this.quizizzExamService.resetPlayers(payload.roomId);
+
     /* lấy ra điểm của những người khác */
     const scores = await this.quizActivityService.findAllScoreByQuizizzExamId(
       payload.roomId,
@@ -96,6 +96,18 @@ export class QuizizzGateway
     this.server.emit('quizizzActivity', quizizzActivity);
   }
 
+  /* disconnect game */
+  @SubscribeMessage('finishGame')
+  async handleResetPlayer(
+    client: Socket,
+    payload: { roomId: string; useId: string },
+  ) {
+    const result = await this.quizizzExamService.resetPlayers(payload.roomId);
+    if (result) {
+      this.server.emit('outGame', payload.useId);
+      this.server.emit('resetPlayers', result);
+    }
+  }
   /* mutiple game players */
   /* cập nhật tên người dùng */
   @SubscribeMessage('updateName')

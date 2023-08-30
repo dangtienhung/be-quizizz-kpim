@@ -35,7 +35,7 @@ export class UserService {
           path: 'quizizz',
           select: '-user',
           populate: [
-            { path: 'questionType', select: 'code name' },
+            // { path: 'questionType', select: 'code name' },
             { path: 'questions', select: 'title score' },
           ],
         },
@@ -198,13 +198,17 @@ export class UserService {
   async updateNameInQuizizzExam(
     userId: string,
     nameInGame: string,
-  ): Promise<{ message: string }> {
+  ): Promise<{ message: string; userId: string }> {
     const user = await this.userModel
       .findByIdAndUpdate({ _id: userId }, { nameInGame })
       .exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return { message: 'Update name in game successfully' };
+    console.log('🚀 ~ file: user.service.ts:205 ~ UserService ~ user:', user);
+    return {
+      message: 'Update name in game successfully',
+      userId: user._id.toString(),
+    };
   }
 }

@@ -102,7 +102,7 @@ export class QuizizzExamService {
             },
           ],
         },
-        { path: 'players', select: 'name avatar nameInGame' },
+        { path: 'players', select: 'name avatar nameInGame scores' },
       ])
       .exec();
     if (!quizizzExam) {
@@ -212,7 +212,7 @@ export class QuizizzExamService {
   }
 
   /* xét danh sách players thành 0 */
-  async resetPlayers(roomId: string) {
+  async resetPlayers(roomId: string): Promise<{ message: string }> {
     const quizizzExam = await this.quizizzExamModel
       .findById({ _id: roomId })
       .exec();
@@ -223,6 +223,6 @@ export class QuizizzExamService {
       { _id: quizizzExam._id },
       { $set: { players: [] } },
     );
-    return quizizzExam;
+    return { message: 'Reset players successfully' };
   }
 }
